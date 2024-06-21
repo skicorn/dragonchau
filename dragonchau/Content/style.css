@@ -1,0 +1,174 @@
+﻿body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f4f4f4;
+	display: flex;
+}
+
+.sidebar {
+	height: 100vh;
+	width: 200px;
+	background-color: #f5deb3; /* Màu vàng kem */
+	color: #2c3e50;
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	padding: 20px;
+}
+
+.logo {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+	.logo img {
+		width: 100%;
+		height: auto;
+	}
+
+.menu-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px 0;
+	width: 100%;
+	text-decoration: none;
+	color: #2c3e50;
+	font-size: 18px;
+	margin-bottom: 10px; /* Khoảng cách giữa các mục */
+}
+
+	.menu-item i {
+		margin-right: 10px;
+		font-size: 20px;
+	}
+
+	.menu-item .arrow {
+		margin-left: auto;
+		font-size: 14px;
+	}
+
+	.menu-item:hover {
+		background-color: #e0c085; /* Màu vàng kem đậm hơn khi hover */
+		border-radius: 5px;
+		cursor: pointer;
+	}
+
+.container {
+	max-width: 1200px;
+	margin: 20px auto;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex-grow: 1;
+	
+}
+
+.results-table {
+	margin-top: 20px;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	width: 100%;
+	max-width: 800px; /* Độ rộng tối đa cho mỗi bảng */
+}
+
+	.results-table h2 {
+		margin-top: 0;
+		text-align: center;
+	}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+/* Thiết lập các hàng hiển thị theo hướng ngang */
+tr {
+	display: flex;
+}
+
+/* Thiết lập các cột hiển thị theo hướng ngang */
+td {
+	flex: 1;
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+}
+
+/* Thiết lập cho hình ảnh */
+.card img {
+	margin-right: 10px;
+	width: 30px; /* Điều chỉnh kích thước hình ảnh tù
+      img {
+    margin-right: 10px;
+    width: 30px; /* Điều chỉnh kích thước hình ảnh tùy ý */
+}
+
+/* Thiết lập cho nội dung */
+.card-content {
+	display: inline-flex;
+	align-items: center;
+}
+
+	.card-content h3,
+	.card-content p {
+		margin: 0;
+		padding-left: 5px;
+		display: inline;
+	}
+
+	.card-content p {
+		margin-left: 5px;
+	}
+
+/* Thiết lập màu cho số đặc biệt */
+.highlight {
+	color: #ff9800; /* Màu cam */
+}
+
+/* Thiết lập màu cho các mục cụ thể */
+.revenue {
+	border-left: 5px solid #4caf50; /* Màu xanh lá cây */
+}
+
+.scheduled-orders {
+	border-left: 5px solid #ff9800; /* Màu cam */
+}
+
+.new-orders {
+	border-left: 5px solid #2196f3; /* Màu xanh lam */
+}
+
+.pending-payment-orders {
+	border-left: 5px solid #f44336; /* Màu đỏ */
+}
+
+.shipping-orders {
+	border-left: 5px solid #9c27b0; /* Màu tím */
+}
+
+/* Điều chỉnh chiều rộng của các bảng */
+.results-table:first-child {
+	margin-bottom: 20px;
+}
+
+.results-table:last-child {
+	margin-top: 20px;
+}
+
+/* Ẩn các phần tử không được chọn */
+.content-section {
+	display: none;
+}
+
+	/* Hiển thị nội dung phù hợp khi mục menu được chọn */
+	.content-section.active {
+		display: block;
+	}
