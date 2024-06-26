@@ -4,17 +4,7 @@
 	padding: 0;
 	background-color: #f4f4f4;
 	display: flex;
-}
-
-.sidebar {
 	height: 100vh;
-	width: 200px;
-	background-color: #f5deb3; /* Màu vàng kem */
-	color: #2c3e50;
-	display: flex;
-	flex-direction: column;
-	align-items: start;
-	padding: 20px;
 }
 
 .logo {
@@ -26,44 +16,18 @@
 		width: 100%;
 		height: auto;
 	}
-
-.menu-item {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px 0;
-	width: 100%;
-	text-decoration: none;
-	color: #2c3e50;
-	font-size: 18px;
-	margin-bottom: 10px; /* Khoảng cách giữa các mục */
+.nav {
+	--bs-nav-link-color: #000000;
 }
 
-	.menu-item i {
-		margin-right: 10px;
-		font-size: 20px;
-	}
-
-	.menu-item .arrow {
-		margin-left: auto;
-		font-size: 14px;
-	}
-
-	.menu-item:hover {
-		background-color: #e0c085; /* Màu vàng kem đậm hơn khi hover */
-		border-radius: 5px;
-		cursor: pointer;
-	}
-
 .container {
-	max-width: 1200px;
+	overflow: hidden;
+	overflow-y: scroll;
 	margin: 20px auto;
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
 	flex-grow: 1;
-	
 }
 
 .results-table {
@@ -81,26 +45,7 @@
 		text-align: center;
 	}
 
-table {
-	width: 100%;
-	border-collapse: collapse;
-}
 
-/* Thiết lập các hàng hiển thị theo hướng ngang */
-tr {
-	display: flex;
-}
-
-/* Thiết lập các cột hiển thị theo hướng ngang */
-td {
-	flex: 1;
-	padding: 20px;
-	border: 1px solid #ddd;
-	border-radius: 8px;
-	text-align: center;
-	display: flex;
-	align-items: center;
-}
 
 /* Thiết lập cho hình ảnh */
 .card img {

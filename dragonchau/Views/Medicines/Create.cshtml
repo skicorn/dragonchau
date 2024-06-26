@@ -1,0 +1,174 @@
+﻿@model dragonchau.Models.Medicine
+
+@{
+	ViewBag.Title = "Create";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "Medicines", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+	@Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+	<h4>Medicine</h4>
+	<hr />
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+	<div class="form-group">
+		@Html.LabelFor(model => model.MedicineName, "Tên thuốc", htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.EditorFor(model => model.MedicineName, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.MedicineName, "", new { @class = "text-danger" })
+		</div>
+	</div>
+	<!-- Giá cả -->
+	<div class="form-group">
+		<div class="row">
+			<div class="col">
+				@Html.LabelFor(model => model.MedicinePrice, "Giá nhập", htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.MedicinePrice, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.MedicinePrice, "", new { @class = "text-danger" })
+				</div>
+			</div>
+			<div class="col">
+				@Html.LabelFor(model => model.MedicinePrice_Sell, "Giá bán", htmlAttributes: new { @class = "control-label col-md-2" })
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.MedicinePrice_Sell, new { htmlAttributes = new { @class = "form-control" } })
+					@Html.ValidationMessageFor(model => model.MedicinePrice_Sell, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Hãng thuốc -->
+	<div class="form-group">
+		@Html.LabelFor(model => model.Brand, "Thương hiệu", htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.DropDownList("BrandID", (SelectList)ViewBag.MedicineBrand, "Chọn thương hiệu", new { @class = "form-control" })
+			@Html.ValidationMessageFor(model => model.MedicineName, "", new { @class = "text-danger" })
+		</div>
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(model => model.Category, "Nhóm thuốc", htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.DropDownList("MedicineCate", (SelectList)ViewBag.MedicineCate, "Chọn nhóm thuốc", new { @class = "form-control" })
+			@Html.ValidationMessageFor(model => model.MedicineCate, "", new { @class = "text-danger" })
+		</div>
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(model => model.MedicineDescription, "Mô tả", htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.TextAreaFor(model => model.MedicineDescription, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.MedicineDescription, "", new { @class = "text-danger" })
+		</div>
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(model => model.MedicineIngredients, "Thành phần", htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.TextAreaFor(model => model.MedicineIngredients, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.MedicineIngredients, "", new { @class = "text-danger" })
+		</div>
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(model => model.MedicineExp, "Hạn sử dụng", htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.TextBoxFor(model => model.MedicineExp, new { @class = "form-control", @type = "date" })
+			@Html.ValidationMessageFor(model => model.MedicineExp, "", new { @class = "text-danger" })
+		</div>
+	</div>
+	<!-- Ảnh -->
+	<div class="form-group">
+		@Html.LabelFor(model => model.MedicineImg, "Medicine Image", htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			<input type="file" name="MedicineImg" class="form-control" />
+			@Html.ValidationMessageFor(model => model.MedicineImg, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	<!-- Các trường khác -->
+
+	<div class="form-group">
+		@Html.LabelFor(model => model.BaseUnit, "Đơn vị tính", htmlAttributes: new { @class = "control-label col-md-2" })
+		<div class="col-md-10">
+			@Html.DropDownListFor(model => model.BaseUnit, (SelectList)ViewBag.UnitID, "-- Chọn Đơn Vị Tính --", new { @class = "form-control", @id = "baseUnitSelect" })
+			@Html.ValidationMessageFor(model => model.BaseUnit, "", new { @class = "text-danger" })
+		</div>
+	</div>
+
+	<div id="conversionUnitsSection" class="form-group" style="display:none;">
+		<label class="control-label col-md-2">Đơn vị quy đổi</label>
+		<div class="col-md-10">
+			<table id="conversionUnitsTable" class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Tên đơn vị</th>
+						<th>Số lượng quy đổi</th>
+						<th>Thêm</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>@Html.DropDownList("ConversionUnits[0].UnitID", (SelectList)ViewBag.UnitID, "-- Chọn Đơn Vị --", new { @class = "form-control" })</td>
+						<td><input type="number" name="ConversionUnits[0].UnitConvert" class="form-control" /></td>
+						<td><button type="button" class="btn btn-primary add-row">+</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<!-- Các trường khác -->
+
+	<div class="form-group">
+		<div class="col-md-offset-2 col-md-10">
+			<input type="submit" value="Create" class="btn btn-default" />
+		</div>
+	</div>
+</div>
+}
+
+<div>
+	@Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+	<script type="text/javascript">
+        $(document).ready(function () {
+            $('#baseUnitSelect').change(function () {
+                var selectedUnit = $(this).val();
+                if (selectedUnit) {
+                    $('#conversionUnitsSection').show();
+                } else {
+                    $('#conversionUnitsSection').hide();
+                }
+            });
+
+            var index = 1;
+
+            // Event handler to add new row
+            $('#conversionUnitsTable').on('click', '.add-row', function () {
+                var newRow = `<tr>
+                    <td><select name="ConversionUnits[` + index + `].UnitID" class="form-control">
+                        @foreach (var unit in ViewBag.UnitID)
+                        {
+                            <option value="@unit.Value">@unit.Text</option>
+                        }
+                    </select></td>
+                    <td><input type="number" name="ConversionUnits[` + index + `].UnitConvert" class="form-control" /></td>
+                    <td><button type="button" class="btn btn-danger remove-row">-</button></td>
+                </tr>`;
+                $('#conversionUnitsTable tbody').append(newRow);
+                index++;
+            });
+
+            // Event handler to remove row
+            $('#conversionUnitsTable').on('click', '.remove-row', function () {
+                $(this).closest('tr').remove();
+            });
+        });
+	</script>
+}

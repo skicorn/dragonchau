@@ -1,0 +1,196 @@
+﻿@model dragonchau.Models.Bill
+
+@{
+	ViewBag.Title = "Create";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<hr />
+
+		@Html.HiddenFor(model => model.BillID)
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.CustomerID, "Customer", htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.DropDownList("CustomerID", null, "-- Select Customer --", htmlAttributes: new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<!-- Medicine Section -->
+		<div id="addMedicineSection">
+			<h4>Add Medicine</h4>
+			<div class="form-group">
+				@Html.LabelFor(model => model.Discount, "Giảm giá", htmlAttributes: new { @class = "control-label col-md-2" })  
+				<div class="row">
+					<div class="col-md-2">
+						@Html.TextBoxFor(model => model.Discount, htmlAttributes: new { @class = "form-control discount", @id = "discount" })
+						@Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<br />
+				<div class="row">
+					<div class="col-md-4">
+						@Html.DropDownList("SelectedMedicineID", (SelectList)ViewBag.MedicineID, "-- Select Medicine --", new { @class = "form-control selected-medicine" })
+						@Html.ValidationMessageFor(model => model.BillDetails, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-2">
+						<input type="number" id="quantity" class="form-control quantity" placeholder="Quantity" inputmode="numeric" pattern="[0-9]*" title="Please enter a whole number" />
+					</div>
+					<div class="col-md-2">
+						@Html.DropDownList("UnitID", new SelectList(Enumerable.Empty<SelectListItem>()), "Select Unit", new { @class = "form-control", @id = "UnitID" })
+					</div>
+					<div class="col-md-2">
+						<button type="button" id="btn-add-medicine" class="btn btn-primary">Add</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Table to display added medicines -->
+		<table class="table" id="billDetailsTable">
+			<thead>
+				<tr>
+					<th>Medicine</th>
+					<th>Unit</th>
+					<th>Quantity</th>
+					<th>Price</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody id="billDetailsTableBody">
+				<!-- Existing bill details will be added here dynamically -->
+			</tbody>
+		</table>
+
+		<!-- Submit Button -->
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Create" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
+}
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+        $(document).ready(function () {
+    // Fetch units when a medicine is selected
+    $('.selected-medicine').change(function () {
+        var selectedMedicineID = $(this).val();
+
+        if (selectedMedicineID) {
+            $.ajax({
+                url: '@Url.Action("GetUnitsForMedicine", "Bills")',
+                type: 'GET',
+                data: { medid: selectedMedicineID },
+                success: function (result) {
+                    if (result.success) {
+                        var units = result.units;
+                        var unitDropdown = $('#UnitID');
+                        unitDropdown.empty();
+
+                        $.each(units, function (index, unit) {
+                            unitDropdown.append($('<option>', {
+                                value: unit.UnitID,
+                                text: unit.UnitName
+                            }));
+                        });
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            });
+        } else {
+            $('#UnitID').empty();
+        }
+    });
+
+    // Add medicine to the table
+    $('#btn-add-medicine').click(function () {
+        var selectedMedicineID = $('.selected-medicine').val();
+        var selectedMedicineText = $('.selected-medicine option:selected').text();
+        var selectedUnitID = $('#UnitID').val();
+        var selectedUnitText = $('#UnitID option:selected').text();
+        var quantity = $('#quantity').val();
+
+        if (selectedMedicineID && selectedUnitID && quantity) {
+            $.ajax({
+                url: '@Url.Action("GetMedicineInfo", "Bills")',
+                type: 'GET',
+                data: { medid: selectedMedicineID, unitid: selectedUnitID },
+                success: function (result) {
+                    if (result.success) {
+                        var price = quantity * result.price;
+                        var medicineExists = false;
+
+                        $('#billDetailsTableBody tr').each(function () {
+                            var existingMedicineID = $(this).find('input[name*=".MedicineID"]').val();
+                            var existingUnitID = $(this).find('input[name*=".UnitID"]').val();
+
+                            if (existingMedicineID == selectedMedicineID && existingUnitID == selectedUnitID) {
+                                var existingQuantity = parseInt($(this).find('input[name*=".Quantity"]').val());
+                                var newQuantity = existingQuantity + parseInt(quantity);
+                                var newPrice = newQuantity * result.price;
+
+                                $(this).find('input[name*=".Quantity"]').val(newQuantity);
+                                $(this).find('td:eq(2)').text(newQuantity);
+                                $(this).find('input[name*=".Price"]').val(newPrice.toFixed(2));
+                                $(this).find('td:eq(3)').text(newPrice.toFixed(2));
+
+                                medicineExists = true;
+                            }
+                        });
+
+                        if (!medicineExists) {
+                            var newRow = `<tr>
+                                <td>
+                                    <input type="hidden" name="BillDetails[${$('#billDetailsTableBody tr').length}].MedicineID" value="${selectedMedicineID}" />
+                                    ${selectedMedicineText}
+                                </td>
+                                <td>
+                                    <input type="hidden" name="BillDetails[${$('#billDetailsTableBody tr').length}].UnitID" value="${selectedUnitID}" />
+                                    ${selectedUnitText}
+                                </td>
+                                <td>
+                                    <input type="number" name="BillDetails[${$('#billDetailsTableBody tr').length}].Quantity" value="${quantity}" />
+                                </td>
+                                <td>
+                                    <input type="hidden" name="BillDetails[${$('#billDetailsTableBody tr').length}].Price" value="${price}" />
+                                    ${price.toFixed(2)}
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-remove-medicine">Remove</button>
+                                </td>
+                            </tr>`;
+
+                            $('#billDetailsTableBody').append(newRow);
+                        }
+
+                        $('.selected-medicine').val('');
+                        $('#quantity').val('');
+                        $('#UnitID').empty();
+                    } else {
+                        alert(result.message);
+                    }
+                }
+            });
+        } else {
+            alert('Please fill all fields');
+        }
+    });
+
+    // Remove medicine row
+    $('#billDetailsTable').on('click', '.btn-remove-medicine', function () {
+        $(this).closest('tr').remove();
+    });
+});
+</script>
+}

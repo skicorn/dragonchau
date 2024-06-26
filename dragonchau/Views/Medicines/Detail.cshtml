@@ -1,0 +1,50 @@
+﻿@model dragonchau.Models.Medicine
+
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	<h4 class="modal-title">Medicine Details</h4>
+</div>
+<div class="modal-body">
+	<dl class="dl-horizontal">
+		<dt>@Html.DisplayNameFor(model => model.MedicineName)</dt>
+		<dd>@Html.DisplayFor(model => model.MedicineName)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.MedicinePrice)</dt>
+		<dd>@Html.DisplayFor(model => model.MedicinePrice)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.MedicinePrice_Sell)</dt>
+		<dd>@Html.DisplayFor(model => model.MedicinePrice_Sell)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.MedicineImg)</dt>
+		<dd>
+			@if (Model.MedicineImg != null && Model.MedicineImg.Length > 0)
+			{
+				<img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.MedicineImg)" alt="Medicine Image" style="max-width:100px;" />
+			}
+		</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.MedicineExp)</dt>
+		<dd>@Html.DisplayFor(model => model.MedicineExp)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.MedicineDescription)</dt>
+		<dd>@Html.DisplayFor(model => model.MedicineDescription)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.MedicineIngredients)</dt>
+		<dd>@Html.DisplayFor(model => model.MedicineIngredients)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.Available)</dt>
+		<dd>@Html.DisplayFor(model => model.Available)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.Brand.BrandName)</dt>
+		<dd>@Html.DisplayFor(model => model.Brand.BrandName)</dd>
+	</dl>
+</div>
+<div class="modal-footer">
+	@Html.ActionLink("Edit", "Edit", new { id = Model.MedicineID }, new { @class = "btn btn-primary" })
+	@using (Html.BeginForm("Delete", "Medicines", new { id = Model.MedicineID }, FormMethod.Post, new { @class = "form-inline" }))
+	{
+		@Html.AntiForgeryToken()
+		<button type="submit" class="btn btn-danger">Delete</button>
+	}
+	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>

@@ -1,0 +1,103 @@
+﻿@model dragonchau.Models.Bill
+
+@{
+	ViewBag.Title = "Details";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+	<h4>Bill</h4>
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>@Html.DisplayNameFor(model => model.BillDateCreate)</dt>
+		<dd>@Html.DisplayFor(model => model.BillDateCreate)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.BillStatus)</dt>
+		<dd>@Html.DisplayFor(model => model.BillStatus)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.Discount)</dt>
+		<dd>@Html.DisplayFor(model => model.Discount)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.Total)</dt>
+		<dd>@Html.DisplayFor(model => model.Total)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.TotalQuantity)</dt>
+		<dd>@Html.DisplayFor(model => model.TotalQuantity)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.Customer.CustomerName)</dt>
+		<dd>@Html.DisplayFor(model => model.Customer.CustomerName)</dd>
+
+		<dt>@Html.DisplayNameFor(model => model.Staff.StaffName)</dt>
+		<dd>@Html.DisplayFor(model => model.Staff.StaffName)</dd>
+	</dl>
+</div>
+
+<h3>Bill Details</h3>
+<table id="billDetailsTable" class="table table-striped">
+	<thead>
+		<tr>
+			<th>Medicine ID</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- Bill details will be appended here by AJAX -->
+	</tbody>
+</table>
+
+<p>
+	@Html.ActionLink("Edit", "Edit", new { id = Model.BillID }) |
+	@Html.ActionLink("Back to List", "Index")
+</p>
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript">
+        $(document).ready(function () {
+            function getBillInfo(billId) {
+                console.log("Fetching bill info for bill ID:", billId);
+                $.ajax({
+                    url: '@Url.Action("GetBillInfo", "Bills")',
+                    type: 'GET',
+                    data: { billid: billId },
+                    success: function (response) {
+                        console.log("Response from server:", response);
+                        if (response.success) {
+                            var details = response.detail;
+                            var detailHtml = '';
+
+                            details.forEach(function (detail) {
+                                detailHtml += '<tr>';
+                                detailHtml += '<td>' + detail.MedicineID + '</td>';
+                                detailHtml += '<td>' + detail.Quantity + '</td>';
+                                detailHtml += '<td>' + detail.BillDetail_Price + '</td>';
+                                detailHtml += '<td>' + detail.BillDetail_Total + '</td>';
+                                detailHtml += '</tr>';
+                            });
+
+                            $('#billDetailsTable tbody').html(detailHtml);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error retrieving bill details:", status, error);
+                        alert('Error retrieving bill details.');
+                    }
+                });
+            }
+
+            // Get bill ID from the model
+            var billId = '@Model.BillID';
+            console.log("Bill ID from model:", billId);
+            if (billId) {
+                getBillInfo(billId);
+            }
+        });
+	</script>
+}

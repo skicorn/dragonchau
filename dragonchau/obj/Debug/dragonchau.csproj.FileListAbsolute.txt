@@ -51,6 +51,8 @@ C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\roslyn\vbc.rsp
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\roslyn\VBCSCompiler.exe
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\roslyn\VBCSCompiler.exe.config
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\Antlr3.Runtime.dll
+C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\EntityFramework.dll
+C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\EntityFramework.SqlServer.dll
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\Microsoft.Web.Infrastructure.dll
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\Newtonsoft.Json.dll
@@ -62,6 +64,8 @@ C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\System.Web.WebPages.Deployment.dll
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\System.Web.WebPages.dll
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\System.Web.WebPages.Razor.dll
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\WebGrease.dll
+C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\EntityFramework.xml
+C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\EntityFramework.SqlServer.xml
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\System.Web.Helpers.xml
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\System.Web.Mvc.xml
 C:\doan\5Bpharmacy\dragonchau\dragonchau\bin\System.Web.Optimization.xml
