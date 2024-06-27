@@ -1,92 +1,103 @@
 ﻿@model IEnumerable<dragonchau.Models.Medicine>
 
 @{
-	ViewBag.Title = "Index";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    <link href="~/Content/medicine.css" rel="stylesheet" />
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="header-medicines">
+    <h2>MEDICINE</h2>
 
-<h2>Index</h2>
-
-<p>
-	@Html.ActionLink("Create New", "Create")
-</p>
+    <p class="add-button-medicines">
+        @Html.ActionLink("Add", "Create")
+    </p>
+</div>
 
 <form method="get" action="@Url.Action("Index")">
-	<p>
-		Find by name or brand: @Html.TextBox("searchString")
-		<input type="submit" value="Search" />
-	</p>
+    <div class="border-search-area-medicines">
+        <img style="height:30px;width:40px;" src="~/Content/images/magnifying-glass-solid.svg"/>
+        @Html.TextBox("searchString", null, new { @class = "search-box-medicine" , @placeholder = "Looking for ..." })
+        <input class="search-button-medicines" type="submit" value="Search" />
+    </div>
 </form>
 
 <table id="medicineTable" class="table">
-	<thead>
-		<tr>
-			<th>@Html.DisplayNameFor(model => model.MedicineName)</th>
-			<th>@Html.DisplayNameFor(model => model.MedicinePrice)</th>
-			<th>@Html.DisplayNameFor(model => model.MedicinePrice_Sell)</th>
-			<th>@Html.DisplayNameFor(model => model.MedicineImg)</th>
-			<th>@Html.DisplayNameFor(model => model.MedicineExp)</th>
-			<th>@Html.DisplayNameFor(model => model.MedicineDescription)</th>
-			<th>@Html.DisplayNameFor(model => model.MedicineIngredients)</th>
-			<th>@Html.DisplayNameFor(model => model.Available)</th>
-			<th>@Html.DisplayNameFor(model => model.Brand.BrandName)</th>
-			<th>@Html.DisplayNameFor(model => model.MedicineCate) </th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr data-id="@item.MedicineID" class="open-dialog">
-				<td>
-					@Html.DisplayFor(modelItem => item.MedicineName)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.MedicinePrice)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.MedicinePrice_Sell)
-				</td>
-				<td>
-					@if (item.MedicineImg != null && item.MedicineImg.Length > 0)
-					{
-						<img src="data:image/jpeg;base64,@Convert.ToBase64String(item.MedicineImg)" alt="Medicine Image" style="max-width:100px;" />
-					}
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.MedicineExp)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.MedicineDescription)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.MedicineIngredients)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Available)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Brand.BrandName)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.MedicineCate)
-				</td>
-			</tr>
-		}
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.MedicineName)</th>
+            <th>@Html.DisplayNameFor(model => model.MedicinePrice)</th>
+            <th>@Html.DisplayNameFor(model => model.MedicinePrice_Sell)</th>
+            <th>@Html.DisplayNameFor(model => model.MedicineImg)</th>
+            <th>@Html.DisplayNameFor(model => model.MedicineExp)</th>
+            <th>@Html.DisplayNameFor(model => model.MedicineDescription)</th>
+            <th>@Html.DisplayNameFor(model => model.MedicineIngredients)</th>
+            <th>@Html.DisplayNameFor(model => model.Available)</th>
+            <th>@Html.DisplayNameFor(model => model.Brand.BrandName)</th>
+            <th>@Html.DisplayNameFor(model => model.MedicineCate) </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.MedicineID" class="open-dialog">
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicineName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicinePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicinePrice_Sell)
+                </td>
+                <td>
+                    @if (item.MedicineImg != null && item.MedicineImg.Length > 0)
+                    {
+                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.MedicineImg)" alt="Medicine Image" style="max-width:100px;" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicineExp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicineDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicineIngredients)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Available)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Brand.BrandName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicineCate)
+                </td>
+            </tr>
+        }
 
-	</tbody>
+    </tbody>
 </table>
-
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
 <div id="medicineDetailsModal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<!-- AJAX content will be loaded here -->
-		</div>
-	</div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- AJAX content will be loaded here -->
+        </div>
+    </div>
 </div>
 
 @section Scripts {
-	@Scripts.Render("~/bundles/jqueryval")
-	<script>
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
         $(document).ready(function () {
             $(".open-dialog").on("click", function (e) {
                 e.preventDefault();
@@ -96,5 +107,5 @@
                 });
             });
         });
-	</script>
+    </script>
 }

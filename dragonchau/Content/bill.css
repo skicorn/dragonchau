@@ -1,0 +1,29 @@
+﻿.header-bills{
+    display:flex;
+    justify-content:space-between;
+}
+.add-button-bills h2{
+    font-family:Roboto;
+}
+.add-button-bills {
+    background: #12B76A;
+    border-radius: 6px;
+    height:30px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.add-button-bills a {
+    text-decoration: none;
+    color: #fff;
+    padding: 10px;
+    
+}
+
+#billTable {
+    border: 1px solid #cccc;
+}
+
+.pagination{
+    --bs-pagination-color:black;
+}

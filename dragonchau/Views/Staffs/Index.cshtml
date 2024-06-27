@@ -1,0 +1,98 @@
+﻿@model IEnumerable<dragonchau.Models.Staff>
+
+@{
+    <link href="~/Content/staff.css" rel="stylesheet" />
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="header-staff">
+    <h2>STAFF</h2>
+
+    <p class="add-button-staff">
+        @Html.ActionLink("Add", "Create")
+    </p>
+</div>
+
+<form method="get" action="@Url.Action("Index")">
+    <div class="border-search-area-staff">
+        <img style="height:30px;width:40px;" src="~/Content/images/magnifying-glass-solid.svg"/>
+        @Html.TextBox("searchString", null, new { @class = "search-box-staff" , @placeholder = "Looking for ..." })
+        <input class="search-button-staff" type="submit" value="Search" />
+    </div>
+</form>
+
+<table id="staffTable" class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StaffName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StaffPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StaffEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StaffSalary)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StaffIDnum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StaffDateCreate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Account.StaffPassword)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role.RoleName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffIDnum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StaffDateCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account.StaffPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role.RoleName)
+            </td>
+            <td>
+                @Html.ActionLink(" ", "Details", new { id = item.StaffID }, new { @style = "background:url('../Content/Images/ellipsis-vertical-solid.svg') no-repeat center right; display:block; height: 20px; width: 20px" })
+
+
+
+            </td>
+        </tr>
+    }
+
+</table>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>

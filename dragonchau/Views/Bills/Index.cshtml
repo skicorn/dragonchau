@@ -1,17 +1,20 @@
 ﻿@model IEnumerable<dragonchau.Models.Bill>
 
 @{
+    <link href="~/Content/bill.css" rel="stylesheet" />
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="header-bills">
+    <h2>ORDER</h2>
 
-<h2>Index</h2>
+    <p class="add-button-bills">
+        @Html.ActionLink("Add", "Create")
+    </p>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
+<table id="billTable" class="table ">
+    <tr >
         <th>
             @Html.DisplayNameFor(model => model.BillDateCreate)
         </th>
@@ -36,33 +39,45 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.BillDateCreate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BillStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Discount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalQuantity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Customer.CustomerName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Staff.StaffName)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id=item.BillID }) 
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BillDateCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BillStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Staff.StaffName)
+            </td>
+            <td>
+
+                @Html.ActionLink(" ", "Details", new { id = item.BillID }, new { @style = "background:url('../Content/Images/ellipsis-vertical-solid.svg') no-repeat center right; display:block; height: 20px; width: 20px" })
+
+            </td>
+        </tr>
+    }
 
 </table>
+<nav  aria-label="Page navigation example">
+    <ul class="pagination justify-content-end">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
