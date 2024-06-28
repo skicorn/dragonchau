@@ -1,24 +1,71 @@
 ﻿@model dragonchau.Models.Staff
 
-@{
+@{<style>
+    .detail-staff-button-container{
+        margin-top:90px;
+    }
+    .detail-update-staff-button {
+        margin-left: 50px;
+        background: #0D6EFD;
+        display: inline-block;
+        color: #fff;
+        border-radius: 7px;
+        width: 63px;
+        padding: 8px;
+    }
+
+        .detail-update-staff-button a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+    .detail-delete-staff-button {
+        margin-left: 50px;
+        background: red;
+        display: inline-block;
+        color: #fff;
+        border-radius: 7px;
+        width: 63px;
+        padding: 8px;
+    }
+
+        .detail-delete-staff-button a {
+            text-decoration: none;
+            color: #fff;
+        }
+    .detail-cancel-staff-button {
+        margin-left: 50px;
+        background: #12B76A;
+        display: inline-block;
+        color: #fff;
+        border-radius: 7px;
+        width: 63px;
+        padding: 8px;
+    }
+
+        .detail-cancel-staff-button a {
+            text-decoration: none;
+            color: #fff;
+        }
+    
+    
+    </style>
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Staff</h4>
-    <hr />
-    <dl class="dl-horizontal">
+<h2>Details Staff</h2>
+<!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+<div class="row">
+    <div class="col-6 col-md-4">
         <dt>
             @Html.DisplayNameFor(model => model.StaffName)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.StaffName)
         </dd>
-
+    </div>
+    <div class="col-6 col-md-4">
         <dt>
             @Html.DisplayNameFor(model => model.StaffPhone)
         </dt>
@@ -26,7 +73,8 @@
         <dd>
             @Html.DisplayFor(model => model.StaffPhone)
         </dd>
-
+    </div>
+    <div class="col-6 col-md-4">
         <dt>
             @Html.DisplayNameFor(model => model.StaffEmail)
         </dt>
@@ -34,7 +82,12 @@
         <dd>
             @Html.DisplayFor(model => model.StaffEmail)
         </dd>
+    </div>
+</div>
 
+<!-- Columns are always 50% wide, on mobile and desktop -->
+<div class="row">
+    <div class="col-6 col-md-4">
         <dt>
             @Html.DisplayNameFor(model => model.StaffSalary)
         </dt>
@@ -42,7 +95,8 @@
         <dd>
             @Html.DisplayFor(model => model.StaffSalary)
         </dd>
-
+    </div>
+    <div class="col-6 col-md-4">
         <dt>
             @Html.DisplayNameFor(model => model.StaffIDnum)
         </dt>
@@ -50,7 +104,12 @@
         <dd>
             @Html.DisplayFor(model => model.StaffIDnum)
         </dd>
+    </div>
 
+</div>
+<!-- Columns are always 50% wide, on mobile and desktop -->
+<div class="row">
+    <div class="col-6 col-md-4">
         <dt>
             @Html.DisplayNameFor(model => model.StaffDateCreate)
         </dt>
@@ -58,7 +117,8 @@
         <dd>
             @Html.DisplayFor(model => model.StaffDateCreate)
         </dd>
-
+    </div>
+    <div class="col-6 col-md-4">
         <dt>
             @Html.DisplayNameFor(model => model.Account.StaffPassword)
         </dt>
@@ -66,6 +126,8 @@
         <dd>
             @Html.DisplayFor(model => model.Account.StaffPassword)
         </dd>
+    </div>
+    <div class="col-6 col-md-4">
 
         <dt>
             @Html.DisplayNameFor(model => model.Role.RoleName)
@@ -74,11 +136,18 @@
         <dd>
             @Html.DisplayFor(model => model.Role.RoleName)
         </dd>
-
-    </dl>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.StaffID }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.StaffID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div class="detail-staff-button-container">
+    <div class="detail-update-staff-button">
+        @Html.ActionLink("Update", "Edit", new { id = Model.StaffID })
+    </div>
+
+    <div class="detail-delete-staff-button">
+        @Html.ActionLink("Delete", "Delete", new { id = Model.StaffID })
+    </div>
+    <div class="detail-cancel-staff-button">
+        @Html.ActionLink("Cancel", "Index")
+    </div>
+
+</div>

@@ -66,3 +66,9 @@ input, select, textarea {
 .pagination {
     --bs-pagination-color: black;
 }
+.modal-content{
+    width:1000px;
+    position:relative;
+    top:50px;
+    left:-200px;
+}

@@ -11,6 +11,9 @@ namespace dragonchau.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     
     public partial class Staff
     {
@@ -21,14 +24,30 @@ namespace dragonchau.Models
         }
     
         public int StaffID { get; set; }
+        [DisplayName("StaffID")]
+        [Required(ErrorMessage = "ID nhân viên không được trống")]
         public string StaffName { get; set; }
+        [DisplayName("StaffName")]
+        [Required(ErrorMessage = "Tên nhân viên không được trống")]
         public string StaffPhone { get; set; }
+        [DisplayName("StaffPhone")]
+        [Required(ErrorMessage = "Số điện thoại nhân viên không được trống")]
         public string StaffEmail { get; set; }
+        [DisplayName("StaffEmail")]
+        [Required(ErrorMessage = "Email nhân viên không được trống")]
         public Nullable<int> StaffSalary { get; set; }
+        [DisplayName("StaffSalary")]
+        [Required(ErrorMessage = "Lương nhân viên không được trống")]
         public string StaffIDnum { get; set; }
+        [DisplayName("StaffIDnum")]
+        [Required(ErrorMessage = "Idnum nhân viên không được trống")]
         public Nullable<System.DateTime> StaffDateCreate { get; set; }
+        [DisplayName("Ngày khởi tạo ")]
+        [Required(ErrorMessage = "Ngày khởi tạo không được trống")]
         public Nullable<int> StaffRole { get; set; }
-    
+        [DisplayName("StaffRole")]
+        [Required(ErrorMessage = "Chức vụ nhân viên không được trống")]
+
         public virtual Account Account { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bill> Bills { get; set; }

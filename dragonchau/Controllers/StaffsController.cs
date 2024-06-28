@@ -42,7 +42,7 @@ namespace dragonchau.Controllers
             ViewBag.StaffID = new SelectList(db.Accounts, "StaffID", "StaffPassword");
             ViewBag.StaffRole = new SelectList(db.Roles, "RoleID", "RoleName");
             return View();
-        }
+        } 
 
         // POST: Staffs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
