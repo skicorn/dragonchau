@@ -24,29 +24,28 @@ namespace dragonchau.Models
         }
     
         public int StaffID { get; set; }
-        [DisplayName("StaffID")]
-        [Required(ErrorMessage = "ID nhân viên không được trống")]
-        public string StaffName { get; set; }
         [DisplayName("StaffName")]
         [Required(ErrorMessage = "Tên nhân viên không được trống")]
-        public string StaffPhone { get; set; }
+        public string StaffName { get; set; }
         [DisplayName("StaffPhone")]
         [Required(ErrorMessage = "Số điện thoại nhân viên không được trống")]
-        public string StaffEmail { get; set; }
+        public string StaffPhone { get; set; }
         [DisplayName("StaffEmail")]
         [Required(ErrorMessage = "Email nhân viên không được trống")]
-        public Nullable<int> StaffSalary { get; set; }
+        public string StaffEmail { get; set; }
         [DisplayName("StaffSalary")]
         [Required(ErrorMessage = "Lương nhân viên không được trống")]
-        public string StaffIDnum { get; set; }
+        public Nullable<int> StaffSalary { get; set; }
         [DisplayName("StaffIDnum")]
         [Required(ErrorMessage = "Idnum nhân viên không được trống")]
-        public Nullable<System.DateTime> StaffDateCreate { get; set; }
+        public string StaffIDnum { get; set; }
         [DisplayName("Ngày khởi tạo ")]
         [Required(ErrorMessage = "Ngày khởi tạo không được trống")]
-        public Nullable<int> StaffRole { get; set; }
+        public Nullable<System.DateTime> StaffDateCreate { get; set; }
         [DisplayName("StaffRole")]
         [Required(ErrorMessage = "Chức vụ nhân viên không được trống")]
+        public Nullable<int> StaffRole { get; set; }
+     
 
         public virtual Account Account { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
