@@ -39,7 +39,7 @@ namespace dragonchau.Models
         [DisplayName("StaffIDnum")]
         [Required(ErrorMessage = "Idnum nhân viên không được trống")]
         public string StaffIDnum { get; set; }
-        [DisplayName("Ngày khởi tạo ")]
+        [DisplayName("StaffCreate")]
         [Required(ErrorMessage = "Ngày khởi tạo không được trống")]
         public Nullable<System.DateTime> StaffDateCreate { get; set; }
         [DisplayName("StaffRole")]

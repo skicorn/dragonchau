@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using dragonchau.Models;
+using PagedList.Mvc;
+using PagedList;
 
 namespace dragonchau.Controllers
 {
@@ -15,12 +17,30 @@ namespace dragonchau.Controllers
         private dragonchauEntities db = new dragonchauEntities();
 
         // GET: Staffs
-        public ActionResult Index()
-        {
-            var staffs = db.Staffs.Include(s => s.Account).Include(s => s.Role);
-            return View(staffs.ToList());
-        }
+        public ActionResult Index(string SearchString,int? i)  
+        {	// SearchString
+            var staffs = db.Staffs.Include(p => p.Account);
 
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                staffs = staffs.Where(s => s.StaffName.Contains(SearchString));
+                if (staffs.Count() == 0)
+                {
+                    TempData["WarningMessage"] = "";
+                }
+                else
+                {
+                    TempData["WarningMessage"] = null; 
+                }
+            }
+            else
+            {
+                TempData["WarningMessage"] = null;
+            }
+
+            return View(staffs.ToList().ToPagedList(i ?? 1,10));
+          
+        }
         // GET: Staffs/Details/5
         public ActionResult Details(int? id)
         {
@@ -55,6 +75,7 @@ namespace dragonchau.Controllers
             {
                 db.Staffs.Add(staff);
                 db.SaveChanges();
+                TempData["SuccessMessage"] = "";
                 return RedirectToAction("Index");
             }
 
@@ -77,6 +98,7 @@ namespace dragonchau.Controllers
             }
             ViewBag.StaffID = new SelectList(db.Accounts, "StaffID", "StaffPassword", staff.StaffID);
             ViewBag.StaffRole = new SelectList(db.Roles, "RoleID", "RoleName", staff.StaffRole);
+
             return View(staff);
         }
 
@@ -91,6 +113,7 @@ namespace dragonchau.Controllers
             {
                 db.Entry(staff).State = EntityState.Modified;
                 db.SaveChanges();
+                TempData["SuccessMessage"] = "";
                 return RedirectToAction("Index");
             }
             ViewBag.StaffID = new SelectList(db.Accounts, "StaffID", "StaffPassword", staff.StaffID);
@@ -121,6 +144,7 @@ namespace dragonchau.Controllers
             Staff staff = db.Staffs.Find(id);
             db.Staffs.Remove(staff);
             db.SaveChanges();
+            TempData["SuccessMessage"] = "";
             return RedirectToAction("Index");
         }
 

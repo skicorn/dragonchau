@@ -1,10 +1,33 @@
-﻿@model IEnumerable<dragonchau.Models.Staff>
+﻿@model IPagedList<dragonchau.Models.Staff>
 
 @{
     <link href="~/Content/staff.css" rel="stylesheet" />
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@using PagedList.Mvc;
+
+@using PagedList;
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successAlert" class="alert alert-success"><strong>Create staff successfully!</strong>@TempData["SuccessMessage"]</div>
+}
+@if (TempData["WarningMessage"] != null)
+{
+    <div style="z-index:1000;" id="warningAlert" class="alert alert-warning"><strong> Not found</strong>@TempData["WarningMessage"]</div>
+}
+
+
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item "><a href="/Home"><img src="~/Content/images/house-solid.svg" style="height:20px;width:20px;"/></a></li>
+        <li class="breadcrumb-item active "><a href="/Home">Home</a></li>
+        <li class="breadcrumb-item " aria-current="page">Staff</li>
+    </ol>
+</nav>
+
 <div class="header-staff">
     <h2>STAFF</h2>
 
@@ -12,87 +35,118 @@
         @Html.ActionLink("Add", "Create")
     </p>
 </div>
-
-<form method="get" action="@Url.Action("Index")">
-    <div class="border-search-area-staff">
-        <img style="height:30px;width:40px;" src="~/Content/images/magnifying-glass-solid.svg"/>
-        @Html.TextBox("searchString", null, new { @class = "search-box-staff" , @placeholder = "Looking for ..." })
-        <input class="search-button-staff" type="submit" value="Search" />
+<div class="split-content-staff" style="display:flex;"> 
+    <div class="split-left-staff">
+        <div class="table-left-staff">
+            <div class="box-left-1">
+                <h6>Chức vụ</h6>
+                <input type="text" value="Chọn chức vụ" style="color: #fff; background: none; border:1px solid;" />
+            </div>
+        </div>
     </div>
-</form>
+    <div class="split-right-staff">
+        <form method="get" action="@Url.Action("Index")">
+            <div class="border-search-area-staff">
 
-<table id="staffTable" class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.StaffName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StaffPhone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StaffEmail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StaffSalary)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StaffIDnum)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StaffDateCreate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Account.StaffPassword)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Role.RoleName)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffSalary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffIDnum)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffDateCreate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Account.StaffPassword)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role.RoleName)
-            </td>
-            <td>
-                @Html.ActionLink(" ", "Details", new { id = item.StaffID }, new { @style = "background:url('../Content/Images/ellipsis-vertical-solid.svg') no-repeat center right; display:block; height: 20px; width: 20px" })
+                @using (Html.BeginForm("Index", "Staff", FormMethod.Get))
+                {
+                    <table>
+                        <tr>
+                            <td>
+                                <img src="~/Content/images/magnifying-glass-solid.svg" style="height:20px;width:20px;" /> <input style="outline:none;border:none;" placeholder="Looking for..." type="text" name="SearchString" />
+                                <input type="submit" value="Tìm kiếm" style="color: #fff; background: #12B76A; border:none;margin-left:131px;border-radius:6px;" />
+                            </td>
+                        </tr>
+                    </table>
+                }
 
 
+            </div>
+        </form>
 
-            </td>
-        </tr>
-    }
+        <table id="staffTable" class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().StaffName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().StaffPhone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().StaffEmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().StaffSalary)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().StaffIDnum)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().StaffDateCreate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Account.StaffPassword)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.First().Role.RoleName)
+                </th>
+                <th></th>
+            </tr>
 
-</table>
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-end">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-    </ul>
-</nav>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StaffName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StaffPhone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StaffEmail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StaffSalary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StaffIDnum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StaffDateCreate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Account.StaffPassword)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role.RoleName)
+                    </td>
+                    <td>
+                        @Html.ActionLink(" ", "Details", new { id = item.StaffID }, new { @style = "background:url('../Content/Images/ellipsis-vertical-solid.svg') no-repeat center right; display:block; height: 20px; width: 20px" })
+
+
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+<div class="pagination-staff" style="display:flex;justify-content:flex-end;">
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+    <div class="pagination-nuber" style="margin-left:20px;">@Html.PagedListPager(Model, i => Url.Action("Index", new { i, searchString = Request.QueryString["searchString"] }))</div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var alert = document.getElementById('successAlert');
+        if (alert) {
+            setTimeout(function () {
+                alert.style.display = 'none';
+
+            }, 5000);
+        }
+    });
+</script>

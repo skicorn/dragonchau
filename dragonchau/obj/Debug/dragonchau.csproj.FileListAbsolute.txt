@@ -164,3 +164,7 @@ C:\Users\ADMIN\Documents\lamabama\dragonchau\dragonchau\obj\Debug\dragonchau.csp
 C:\Users\ADMIN\Documents\lamabama\dragonchau\dragonchau\obj\Debug\dragonchau.csproj.Up2Date
 C:\Users\ADMIN\Documents\lamabama\dragonchau\dragonchau\obj\Debug\dragonchau.dll
 C:\Users\ADMIN\Documents\lamabama\dragonchau\dragonchau\obj\Debug\dragonchau.pdb
+C:\Users\ADMIN\Documents\lamabama\dragonchau\dragonchau\bin\PagedList.dll
+C:\Users\ADMIN\Documents\lamabama\dragonchau\dragonchau\bin\PagedList.Mvc.dll
+C:\Users\ADMIN\Documents\lamabama\dragonchau\dragonchau\bin\PagedList.xml
+C:\Users\ADMIN\Documents\lamabama\dragonchau\dragonchau\bin\PagedList.Mvc.xml
