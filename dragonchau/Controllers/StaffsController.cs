@@ -10,37 +10,44 @@ using dragonchau.Models;
 using PagedList.Mvc;
 using PagedList;
 
+using System.Drawing.Printing;
+using Google.Protobuf.Compiler;
+using IronPdf;
+using Grpc.Core;
+
 namespace dragonchau.Controllers
 {
     public class StaffsController : Controller
     {
         private dragonchauEntities db = new dragonchauEntities();
 
+
         // GET: Staffs
-        public ActionResult Index(string SearchString,int? i)  
+        public ActionResult Index(string SearchString, int? i,string CateString)
         {	// SearchString
+            
             var staffs = db.Staffs.Include(p => p.Account);
 
-            if (!String.IsNullOrEmpty(SearchString))
+            if (!String.IsNullOrEmpty(CateString))
             {
-                staffs = staffs.Where(s => s.StaffName.Contains(SearchString));
-                if (staffs.Count() == 0)
+
+                if (int.TryParse(CateString, out int cateInt))
                 {
-                    TempData["WarningMessage"] = "";
+                    staffs = staffs.Where(s => s.StaffRole == cateInt);
                 }
                 else
                 {
-                    TempData["WarningMessage"] = null; 
+                    // Xử lý khi CateString không thể chuyển đổi sang int
+                    TempData["WarningMessage"] = "CateString không hợp lệ.";
                 }
             }
-            else
-            {
-                TempData["WarningMessage"] = null;
-            }
-
-            return View(staffs.ToList().ToPagedList(i ?? 1,10));
           
+
+            return View(staffs.ToList().ToPagedList(i ?? 1, 10));
+
         }
+
+
         // GET: Staffs/Details/5
         public ActionResult Details(int? id)
         {
@@ -156,5 +163,6 @@ namespace dragonchau.Controllers
             }
             base.Dispose(disposing);
         }
+       
     }
 }

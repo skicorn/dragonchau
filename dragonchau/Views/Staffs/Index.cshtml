@@ -34,13 +34,24 @@
     <p class="add-button-staff">
         @Html.ActionLink("Add", "Create")
     </p>
+   
+       <a  class="btn btn-primary" id="printPDF">Print PDF</a>
+  
 </div>
 <div class="split-content-staff" style="display:flex;"> 
     <div class="split-left-staff">
         <div class="table-left-staff">
             <div class="box-left-1">
                 <h6>Chức vụ</h6>
-                <input type="text" value="Chọn chức vụ" style="color: #fff; background: none; border:1px solid;" />
+                <input class="input-filter-1-staff" />
+            </div>
+            <div class="box-left-1">
+                <h6>Lương</h6>
+                <input class="input-filter-1-staff" />
+            </div>
+            <div class="box-left-1">
+                <h6>Ngày tạo tài khoản </h6>
+                <input class="input-filter-1-staff" />
             </div>
         </div>
     </div>
@@ -53,83 +64,83 @@
                     <table>
                         <tr>
                             <td>
-                                <img src="~/Content/images/magnifying-glass-solid.svg" style="height:20px;width:20px;" /> <input style="outline:none;border:none;" placeholder="Looking for..." type="text" name="SearchString" />
+                                <img src="~/Content/images/magnifying-glass-solid.svg" style="height:20px;width:20px;" /> <input style="outline: none; width: 690px; border: none;border-radius:0px;" placeholder="Looking for..." type="text" name="SearchString" />
                                 <input type="submit" value="Tìm kiếm" style="color: #fff; background: #12B76A; border:none;margin-left:131px;border-radius:6px;" />
                             </td>
                         </tr>
                     </table>
                 }
-
-
             </div>
         </form>
 
-        <table id="staffTable" class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().StaffName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().StaffPhone)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().StaffEmail)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().StaffSalary)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().StaffIDnum)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().StaffDateCreate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().Account.StaffPassword)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.First().Role.RoleName)
-                </th>
-                <th></th>
-            </tr>
-
-            @foreach (var item in Model)
-            {
+        <div id="parentDiv">
+            <table id="staffTable" class="table">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StaffName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StaffPhone)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StaffEmail)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StaffSalary)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StaffIDnum)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StaffDateCreate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Account.StaffPassword)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Role.RoleName)
-                    </td>
-                    <td>
-                        @Html.ActionLink(" ", "Details", new { id = item.StaffID }, new { @style = "background:url('../Content/Images/ellipsis-vertical-solid.svg') no-repeat center right; display:block; height: 20px; width: 20px" })
-
-
-
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().StaffName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().StaffPhone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().StaffEmail)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().StaffSalary)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().StaffIDnum)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().StaffDateCreate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().Account.StaffPassword)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.First().Role.RoleName)
+                    </th>
+                    <th></th>
                 </tr>
-            }
 
-        </table>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StaffName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StaffPhone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StaffEmail)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StaffSalary)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StaffIDnum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StaffDateCreate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Account.StaffPassword)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Role.RoleName)
+                        </td>
+                        <td>
+                            @Html.ActionLink(" ", "Details", new { id = item.StaffID }, new { @style = "background:url('../Content/Images/ellipsis-vertical-solid.svg') no-repeat center right; display:block; height: 20px; width: 20px" })
+
+
+
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
     </div>
 </div>
 <div class="pagination-staff" style="display:flex;justify-content:flex-end;">
@@ -148,5 +159,14 @@
 
             }, 5000);
         }
+    });
+
+    $("printPDF").click(function () {
+        var element = document.getElementById('parentDiv');
+        html2pdf().from(element).set({
+            margin: [30, 10, 5, 10],
+            pagebreak: { avoid: 'tr' },
+            jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
+        }).save()
     });
 </script>
