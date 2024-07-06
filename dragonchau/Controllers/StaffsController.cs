@@ -21,31 +21,46 @@ namespace dragonchau.Controllers
     {
         private dragonchauEntities db = new dragonchauEntities();
 
-
         // GET: Staffs
-        public ActionResult Index(string SearchString, int? i,string CateString)
+        public ActionResult Index(string SearchString, int? i)
         {	// SearchString
-            
             var staffs = db.Staffs.Include(p => p.Account);
 
-            if (!String.IsNullOrEmpty(CateString))
+            if (!String.IsNullOrEmpty(SearchString))
             {
-
-                if (int.TryParse(CateString, out int cateInt))
+                staffs = staffs.Where(s => s.StaffName.Contains(SearchString)||s.Role.RoleName.Contains(SearchString));
+                if (staffs.Count() == 0)
                 {
-                    staffs = staffs.Where(s => s.StaffRole == cateInt);
+                    TempData["WarningMessage"] = "Not found";
                 }
                 else
                 {
-                    // Xử lý khi CateString không thể chuyển đổi sang int
-                    TempData["WarningMessage"] = "CateString không hợp lệ.";
+                    TempData["WarningMessage"] = null;
                 }
             }
-          
+            else
+            {
+                TempData["WarningMessage"] = null;
+            }
+
+
+            // count all staffs
+            var totalStaffCount = db.Staffs.Count();
+            ViewBag.TotalStaffCount = totalStaffCount;
+            // count manager
+            var managerCount = db.Staffs.Count(s => s.Role.RoleName == "Manager");
+            ViewBag.ManagerCount = managerCount;
+            // count pharmacist
+            var pharmacistCount = db.Staffs.Count(s => s.Role.RoleName == "Pharmacist");
+            ViewBag.PharmacistCount = pharmacistCount;
+            // count cashier
+            var cashierCount = db.Staffs.Count(s => s.Role.RoleName == "Cashier");
+            ViewBag.CashierCount = cashierCount;
 
             return View(staffs.ToList().ToPagedList(i ?? 1, 10));
 
         }
+
 
 
         // GET: Staffs/Details/5
@@ -82,7 +97,7 @@ namespace dragonchau.Controllers
             {
                 db.Staffs.Add(staff);
                 db.SaveChanges();
-                TempData["SuccessMessage"] = "";
+                TempData["SuccessMessage"] = "Create staff successed";
                 return RedirectToAction("Index");
             }
 
@@ -117,10 +132,11 @@ namespace dragonchau.Controllers
         public ActionResult Edit([Bind(Include = "StaffID,StaffName,StaffPhone,StaffEmail,StaffSalary,StaffIDnum,StaffDateCreate,StaffRole")] Staff staff)
         {
             if (ModelState.IsValid)
-            {
+            {   
+
                 db.Entry(staff).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["SuccessMessage"] = "";
+                TempData["SuccessMessage"] = "Edit staff successed";
                 return RedirectToAction("Index");
             }
             ViewBag.StaffID = new SelectList(db.Accounts, "StaffID", "StaffPassword", staff.StaffID);

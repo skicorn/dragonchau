@@ -12,11 +12,11 @@
 
 @if (TempData["SuccessMessage"] != null)
 {
-    <div id="successAlert" class="alert alert-success"><strong>Create staff successfully!</strong>@TempData["SuccessMessage"]</div>
+    <div id="successAlert" class="alert alert-success"><strong></strong>@TempData["SuccessMessage"]</div>
 }
 @if (TempData["WarningMessage"] != null)
 {
-    <div style="z-index:1000;" id="warningAlert" class="alert alert-warning"><strong> Not found</strong>@TempData["WarningMessage"]</div>
+    <div style="z-index:1000;" id="warningAlert" class="alert alert-warning"><strong></strong>@TempData["WarningMessage"]</div>
 }
 
 
@@ -34,25 +34,34 @@
     <p class="add-button-staff">
         @Html.ActionLink("Add", "Create")
     </p>
-   
-       <a  class="btn btn-primary" id="printPDF">Print PDF</a>
-  
+    <div class="box-parrent-staff">
+        <div class="box-child-staff">
+            <img />
+            <h3>Total number of staff:</h3>
+            <h4>@ViewBag.TotalStaffCount</h4>
+        </div>
+    </div>
+    <p class="popip-text">Total number of staff: @ViewBag.TotalStaffCount</p>
+    <p class="popip-text-1">Total number of Manager: @ViewBag.ManagerCount</p>
+    <p class="popip-text-2">Total number of Phamacist: @ViewBag.pharmacistCount</p>
+    <p class="popip-text-3">Total number of Cashier: @ViewBag.CashierCount</p>
+
+
+
 </div>
 <div class="split-content-staff" style="display:flex;"> 
     <div class="split-left-staff">
         <div class="table-left-staff">
             <div class="box-left-1">
-                <h6>Chức vụ</h6>
+                <h6>Ngày tạo tài khoản</h6>
                 <input class="input-filter-1-staff" />
+
             </div>
             <div class="box-left-1">
                 <h6>Lương</h6>
                 <input class="input-filter-1-staff" />
             </div>
-            <div class="box-left-1">
-                <h6>Ngày tạo tài khoản </h6>
-                <input class="input-filter-1-staff" />
-            </div>
+         
         </div>
     </div>
     <div class="split-right-staff">
@@ -161,12 +170,5 @@
         }
     });
 
-    $("printPDF").click(function () {
-        var element = document.getElementById('parentDiv');
-        html2pdf().from(element).set({
-            margin: [30, 10, 5, 10],
-            pagebreak: { avoid: 'tr' },
-            jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
-        }).save()
-    });
+  
 </script>

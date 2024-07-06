@@ -23,8 +23,8 @@ namespace dragonchau.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                medicines = medicines.Where(m => m.MedicineName.Contains(searchString) ||
-                                                 m.Brand.BrandName.Contains(searchString));
+                medicines = medicines.Where(m => m.MedicineName.Contains(searchString) )
+                                                ;
             }
 
             return View(medicines.ToList());

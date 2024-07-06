@@ -38,8 +38,10 @@
     <div style="overflow:hidden;overflow-y:hidden;" class="container">
         <div class="row">
             <div class="col-sm">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.StaffID)
+                
                 <div class="form-group">
                     @Html.LabelFor(model => model.StaffName, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -50,6 +52,15 @@
                 </div>
 
 
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Account.StaffPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+
+                        @Html.EditorFor(model => model.Account.StaffPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.StaffName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+               
                 <div class="form-group">
                     @Html.LabelFor(model => model.StaffSalary, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -107,7 +118,7 @@
             <input type="submit" value="Edit" class="btn btn-default" style="color:#fff;" />
         </div>
         <div class="edit-staff-back-button">
-            @Html.ActionLink("Cancel", "Index")
+            @Html.ActionLink("Cancel", "Details")
         </div>
     </div>
 
