@@ -54,11 +54,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Role.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.StaffRole, "StaffRole", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-
-                        @Html.EditorFor(model => model.Role.RoleName, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Role.RoleName, "", new { @class = "text-danger" })
+                        @Html.DropDownList("StaffRole", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.StaffRole, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
