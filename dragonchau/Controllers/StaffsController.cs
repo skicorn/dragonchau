@@ -22,7 +22,7 @@ namespace dragonchau.Controllers
         private dragonchauEntities db = new dragonchauEntities();
 
         // GET: Staffs
-        public ActionResult Index(string SearchString, int? i)
+        public ActionResult Index(string SearchString)
         {	// SearchString
             var staffs = db.Staffs.Include(p => p.Account);
 
@@ -57,7 +57,7 @@ namespace dragonchau.Controllers
             var cashierCount = db.Staffs.Count(s => s.Role.RoleName == "Cashier");
             ViewBag.CashierCount = cashierCount;
 
-            return View(staffs.ToList().ToPagedList(i ?? 1, 10));
+            return View(staffs.ToList());
 
         }
 

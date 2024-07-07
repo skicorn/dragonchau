@@ -1,106 +1,137 @@
 ﻿@model dragonchau.Models.Staff
 
 @{
+    
     <style>
-        .detail-staff-button-container-header {
-           display:flex;
-           justify-content:end;
-           margin-bottom:20px;
-        }
-        .detail-update-staff-button{
-            margin-right:20px;
-        }
-        .detail-staff-button-container {
-            display: flex;
-            justify-content: end;
+        .font-weigth-bold {
             margin-top: 20px;
+            font-weight: 600;
         }
-        .detail-border-staff {
-            display: inline-block;
-            border: 3px solid #6C757D;
-            padding: 12px 10px;
-            border-radius: 13px;
-            width: 185px;
-            
+        .text-1-detail-staff {
+            margin-top: 40px;
+            font-weight: 600;
+            margin-bottom:40px;
         }
-        .translate-middle {
-            transform: translate(-50%, -50%) !important;
-        }
-            
-
-       
     </style>
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+    <ol class="breadcrumb" style="color:black;">
+        <li class="breadcrumb-item "><a href="/Home"><img src="~/Content/images/house-solid.svg" style="height:20px;width:20px;text-decoration:none;color:black;" /></a></li>
+        <li class="breadcrumb-item "><a href="/Home" style="text-decoration: none; color: black;">Home</a></li>
+        <li class="breadcrumb-item "><a href="/Staffs" style="text-decoration: none; color: black;">Staff</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href="/Staffs/Details/1" style="text-decoration: none; color: black;">Detail Staff</a></li>
+    </ol>
+</nav>
+<h4 class="font-weigth-bold">Details Staff</h4>
+<div class="text-1-detail-staff">Staff information</div>
+<div style="overflow:hidden;overflow-y:hidden;" class="container-create-staff">
+    <div class="row">
+        <div class="col-sm" style=" display: grid; grid-gap: 38px;">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-<h2>Details Staff</h2>
-<div class="detail-staff-button-container-header">
-    <div class="detail-update-staff-button">
-        @Html.ActionLink("Edit", "Edit", new { id = Model.StaffID }, new { @class = "btn btn-primary" })
-    </div>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.StaffName)
+                <div class="col-md-10 border border-secondary p-1 rounded border-1">
+                    @Html.DisplayFor(model => model.StaffName)
+                </div>
+            </div>
 
 
-    <div class="detail-cancel-staff-button">
-        @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary" })
-    </div>
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.StaffSalary)
+                <div class="col-md-10 border border-secondary p-1 rounded border-1">
+                    @Html.DisplayFor(model => model.StaffSalary)
+                </div>
+            </div>
 
-</div>
-<div class="card" style="border:none" >
-    <div class="card-body" style="padding:40px;">
-
-        <!-- col 1-->
-        <div class="row">
-
-            <div class="col-6 col-md-4">
-              
-                    <span class="detail-border-staff position-relative">@Html.DisplayFor(model => model.StaffName) <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-secondary"> @Html.DisplayNameFor(model => model.StaffName) </span></span>
-               
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.Role.RoleName)
+                <div class="col-md-10 border border-secondary p-1 rounded border-1">
+                    @Html.DisplayFor(model => model.Role.RoleName)
+                </div>
             </div>
-            <div class="col-6 col-md-4">
-                <span class="detail-border-staff position-relative">@Html.DisplayFor(model => model.StaffPhone) <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-secondary"> @Html.DisplayNameFor(model => model.StaffPhone) </span></span>
-           
-            </div>
-            <div class="col-6 col-md-4">
-                <span class="detail-border-staff position-relative">@Html.DisplayFor(model => model.StaffEmail) <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-secondary"> @Html.DisplayNameFor(model => model.StaffEmail) </span></span>
-               
-            </div>
-        </div>
-
-        <!-- col 2-->
-        <div class="row" style="margin-top:70px;">
-            <div class="col-6 col-md-4">
-                <span class="detail-border-staff position-relative" >@Html.DisplayFor(model => model.Role.RoleName) <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-secondary"> @Html.DisplayNameFor(model => model.Role.RoleName) </span></span>
-               
-            </div>
-            <div class="col-6 col-md-4">
-                <span class="detail-border-staff position-relative" >@Html.DisplayFor(model => model.StaffSalary) <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-secondary">@Html.DisplayNameFor(model => model.StaffSalary) </span></span>
-             
-            </div>
-            <div class="col-6 col-md-4">
-                <span class="detail-border-staff position-relative" > @Html.DisplayFor(model => model.StaffIDnum) <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-secondary">@Html.DisplayNameFor(model => model.StaffIDnum) </span></span>
-               
-            </div>
-        </div>
-        <!-- Columns are always 50% wide, on mobile and desktop -->
-        <div class="row" style="margin-top:70px;">
-            <div class="col-6 col-md-4">
-                <span class="detail-border-staff position-relative"  >@Html.DisplayFor(model => model.StaffDateCreate) <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-secondary">@Html.DisplayNameFor(model => model.StaffDateCreate) </span></span>
-              
-            </div>
-            <div class="col-6 col-md-4">
-                <span class="detail-border-staff position-relative" > @Html.DisplayFor(model => model.Account.StaffPassword) <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-secondary">@Html.DisplayNameFor(model => model.Account.StaffPassword) </span></span>
-             
-            </div>
+            
 
         </div>
+
+
+
+        <div class="col-sm" style="display: grid; grid-gap: 38px;">
+
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.StaffPhone)
+                <div class="col-md-10 border border-secondary p-1 rounded border-1">
+                    @Html.DisplayFor(model => model.StaffPhone)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.StaffIDnum)
+                <div class="col-md-10 border border-secondary p-1 rounded border-1">
+                    @Html.DisplayFor(model => model.StaffIDnum)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.Account.StaffPassword)
+                <div class="col-md-10 border border-secondary p-1 rounded border-1">
+                    @Html.DisplayFor(model => model.Account.StaffPassword)
+                </div>
+            </div>
+
+        </div>
+
+            
+
+
+
+
+        <div class="col-sm" style=" display: grid; grid-gap: 38px;">
+            <div class="form-group">
+                @Html.DisplayNameFor(model => model.StaffEmail)
+                <div class="col-md-10 border border-secondary p-1 rounded border-1">
+                    @Html.DisplayFor(model => model.StaffEmail)
+                </div>
+            </div>
+
+               <div class="form-group">
+                @Html.DisplayNameFor(model => model.StaffDateCreate)
+                <div class="col-md-10 border border-secondary p-1 rounded border-1">
+                    @Html.DisplayFor(model => model.StaffDateCreate)
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
-<div class="detail-staff-button-container">
-    
-    <div class="detail-delete-staff-button">
-       
-        @Html.ActionLink("Delete", "Delete", new { id = Model.StaffID },new {@class= "btn btn-danger" })
+
+<!--toast function-->
+<div class="position-fixed start-50 bottom-0 translate-middle-x w-100 zi-99 mb-3" style="max-width: 40rem;">
+    <!-- Card -->
+    <div class="card card-sm bg-dark border-dark mx-2">
+        <div class="card-body">
+            <div class="row justify-content-center justify-content-sm-between">
+                <div class="col">
+                    @Html.ActionLink("Delete", "Delete", new { id = Model.StaffID }, new { @class = "btn btn-danger" })
+
+                </div>
+                <!-- End Col -->
+
+                <div class="col-auto">
+                    <div class="d-flex gap-3">
+
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.StaffID }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-ghost-light text-white" })
+                    </div>
+                </div>
+                <!-- End Col -->
+            </div>
+            <!-- End Row -->
+        </div>
     </div>
+    <!-- End Card -->
 </div>
-   

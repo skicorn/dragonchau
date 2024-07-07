@@ -385,6 +385,7 @@
     <Content Include="Content\images\ellipsis-vertical-solid.svg" />
     <Content Include="Content\images\house-solid.svg" />
     <Content Include="Content\images\magnifying-glass-solid.svg" />
+    <Content Include="Content\images\users-solid.svg" />
     <Content Include="Content\medicine.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\staff.css" />

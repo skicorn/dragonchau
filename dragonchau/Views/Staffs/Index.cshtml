@@ -1,4 +1,4 @@
-﻿@model IPagedList<dragonchau.Models.Staff>
+﻿@model IEnumerable<dragonchau.Models.Staff>
 
 @{
     <link href="~/Content/staff.css" rel="stylesheet" />
@@ -22,34 +22,65 @@
 
 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item "><a href="/Home"><img src="~/Content/images/house-solid.svg" style="height:20px;width:20px;"/></a></li>
+        <li class="breadcrumb-item "><a href="/Home"><img src="~/Content/images/house-solid.svg" style="height:20px;width:20px;" /></a></li>
         <li class="breadcrumb-item active "><a href="/Home">Home</a></li>
-        <li class="breadcrumb-item " aria-current="page">Staff</li>
+        <li class="breadcrumb-item " aria-current="page"><a href="/Staffs">Staff</a></li>
     </ol>
 </nav>
 
 <div class="header-staff">
     <h2>STAFF</h2>
-
-    <p class="add-button-staff">
-        @Html.ActionLink("Add", "Create")
+    <p>
+        @Html.ActionLink("Add Staff", "Create", null, new { @class = "btn btn-primary margin-right-5" })
     </p>
-    <div class="box-parrent-staff">
-        <div class="box-child-staff">
-            <img />
-            <h3>Total number of staff:</h3>
-            <h4>@ViewBag.TotalStaffCount</h4>
+</div>
+
+<!--row 1-->
+<div class="row" style=" gap: 125px;">
+    
+    <div class="box-1">
+        <div class="card mb-3 widget-content bg-midnight-bloom custom-width">
+            <div class="widget-content-wrapper text-black" style="background: #14698E; ">
+                <div class="widget-content-left">
+                    <div class="widget-heading text-white ">Total number </div>
+                    <div class="widget-subheading text-white">Manager</div>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-white"><span style=" font-weight: 700; font-size: 1.8rem; display: block;">@ViewBag.ManagerCount</span></div>
+                </div>
+            </div>
         </div>
     </div>
-    <p class="popip-text">Total number of staff: @ViewBag.TotalStaffCount</p>
-    <p class="popip-text-1">Total number of Manager: @ViewBag.ManagerCount</p>
-    <p class="popip-text-2">Total number of Phamacist: @ViewBag.pharmacistCount</p>
-    <p class="popip-text-3">Total number of Cashier: @ViewBag.CashierCount</p>
-
-
-
+    <div class="box-2">
+        <div class="card mb-3 widget-content bg-midnight-bloom custom-width">
+            <div class="widget-content-wrapper text-black" style="background: #1A456B; ">
+                <div class="widget-content-left">
+                    <div class="widget-heading text-white ">Total number </div>
+                    <div class="widget-subheading text-white">Pharmacist</div>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-white"><span style=" font-weight: 700; font-size: 1.8rem; display: block;">@ViewBag.PharmacistCount</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-3">
+        <div class="card mb-3 widget-content bg-midnight-bloom custom-width">
+            <div class="widget-content-wrapper text-black" style="background: #10C79A;">
+                <div class="widget-content-left">
+                    <div class="widget-heading text-white ">Total number </div>
+                    <div class="widget-subheading text-white">Cashier</div>
+                </div>
+                <div class="widget-content-right">
+                    <div class="widget-numbers text-white"><span style=" font-weight: 700; font-size: 1.8rem; display: block;">@ViewBag.CashierCount</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="split-content-staff" style="display:flex;"> 
+<!--row 2-->
+
+<div class="split-content-staff" style="display:flex;">
     <div class="split-left-staff">
         <div class="table-left-staff">
             <div class="box-left-1">
@@ -61,7 +92,9 @@
                 <h6>Lương</h6>
                 <input class="input-filter-1-staff" />
             </div>
-         
+            <!--pie chart-->
+          
+
         </div>
     </div>
     <div class="split-right-staff">
@@ -73,8 +106,8 @@
                     <table>
                         <tr>
                             <td>
-                                <img src="~/Content/images/magnifying-glass-solid.svg" style="height:20px;width:20px;" /> <input style="outline: none; width: 690px; border: none;border-radius:0px;" placeholder="Looking for..." type="text" name="SearchString" />
-                                <input type="submit" value="Tìm kiếm" style="color: #fff; background: #12B76A; border:none;margin-left:131px;border-radius:6px;" />
+                                <img src="~/Content/images/magnifying-glass-solid.svg" style="height:20px;width:20px;" /> <input style="outline: none; width: 605px; border: none; border-radius: 0px;" placeholder="Looking for..." type="text" name="SearchString" />
+
                             </td>
                         </tr>
                     </table>
@@ -86,28 +119,28 @@
             <table id="staffTable" class="table">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().StaffName)
+                        @Html.DisplayNameFor(model => model.StaffName)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().StaffPhone)
+                        @Html.DisplayNameFor(model => model.StaffPhone)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().StaffEmail)
+                        @Html.DisplayNameFor(model => model.StaffEmail)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().StaffSalary)
+                        @Html.DisplayNameFor(model => model.StaffSalary)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().StaffIDnum)
+                        @Html.DisplayNameFor(model => model.StaffIDnum)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().StaffDateCreate)
+                        @Html.DisplayNameFor(model => model.StaffDateCreate)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().Account.StaffPassword)
+                        @Html.DisplayNameFor(model => model.Account.StaffPassword)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.First().Role.RoleName)
+                        @Html.DisplayNameFor(model => model.Role.RoleName)
                     </th>
                     <th></th>
                 </tr>
@@ -152,10 +185,7 @@
         </div>
     </div>
 </div>
-<div class="pagination-staff" style="display:flex;justify-content:flex-end;">
-    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
-    <div class="pagination-nuber" style="margin-left:20px;">@Html.PagedListPager(Model, i => Url.Action("Index", new { i, searchString = Request.QueryString["searchString"] }))</div>
-</div>
+
 
 
 <script>
@@ -169,6 +199,7 @@
             }, 5000);
         }
     });
+   
 
-  
+
 </script>

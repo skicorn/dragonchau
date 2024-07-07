@@ -3,24 +3,13 @@
     justify-content: space-between;
 }
 
-.add-button-staff h2 {
-    font-family: Roboto;
-}
 
-.add-button-staff {
-    background: #12B76A;
-    border-radius: 6px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.margin-right-7{
+    margin-right:5px;
 }
-
-    .add-button-staff a {
-        text-decoration: none;
-        color: #fff;
-        padding: 10px;
-    }
+.margin-top-{
+    margin-top:20px;
+}
 
 .border-search-area-staff {
     border: 1px solid #cccc;
@@ -69,28 +58,49 @@ input, select, textarea {
 }
 
 
-.PagedList-skipToNext li a{
-    text-decoration:none;
-    color:black;
+/*box show data*/
+.custom-width{
+    width:300px;
+}
+.widget-content .widget-content-wrapper {
+    display: flex;
+    flex: 1;
+    padding: 11px;
+    position: relative;
+    background: #72b383;
+    align-items: center;
 }
 
+.row > * {
+width:auto;
+}
 
+    .widget-numbers .text-white {
+    font-weight: 700;
+    font-size: 1.8rem;
+    display: block;
+}
+.widget-content-right{
+    margin-left:150px;
+}
 
 /*Breadcum*/
-.text-item-breadcum a{
-    color:red;
+.text-item-breadcum a {
+    color: red;
 }
 .breadcrumb-item a {
     text-decoration: none;
     color: black;
 }
-
+.breadcrumb-item-1 a {
+    text-decoration: none;
+    color: black;
+}
 /*table left filter*/
-.table-left-staff{
-    height:200px;
-    width:230px;
-    margin-right:12px;
- 
+.table-left-staff {
+    height: 200px;
+    width: 230px;
+    margin-right: 12px;
 }
 .box-left-1 {
     margin-bottom:20px;
@@ -107,3 +117,5 @@ input, select, textarea {
         border-bottom: 1px solid black;
         outline: none;
     }
+
+/**create*/
