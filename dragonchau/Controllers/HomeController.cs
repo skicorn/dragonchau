@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dragonchau.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace dragonchau.Controllers
 {
     public class HomeController : Controller
     {
+        private dragonchauEntities db = new dragonchauEntities();
         public ActionResult Index()
         {
             return View();
@@ -26,5 +28,11 @@ namespace dragonchau.Controllers
 
             return View();
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
+            
+      
     }
 }

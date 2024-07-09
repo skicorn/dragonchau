@@ -11,6 +11,7 @@
           </Key>
           <Property Name="StaffID" Type="int" Nullable="false" />
           <Property Name="StaffPassword" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="StaffEmail" Type="nvarchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="Bill">
           <Key>
@@ -334,6 +335,7 @@
           </Key>
           <Property Name="StaffID" Type="Int32" Nullable="false" />
           <Property Name="StaffPassword" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StaffEmail" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Staff" Relationship="Self.FK__Account__StaffID__3C69FB99" FromRole="Account" ToRole="Staff" />
         </EntityType>
         <EntityType Name="Bill">
@@ -679,6 +681,7 @@
               <MappingFragment StoreEntitySet="Account">
                 <ScalarProperty Name="StaffID" ColumnName="StaffID" />
                 <ScalarProperty Name="StaffPassword" ColumnName="StaffPassword" />
+                <ScalarProperty Name="StaffEmail" ColumnName="StaffEmail" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

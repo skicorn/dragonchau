@@ -6,6 +6,7 @@
     </Key>
     <Property Name="StaffID" Type="int" Nullable="false" />
     <Property Name="StaffPassword" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="StaffEmail" Type="nvarchar" MaxLength="30" Nullable="false" />
   </EntityType>
   <EntityType Name="Bill">
     <Key>

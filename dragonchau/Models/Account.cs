@@ -16,6 +16,7 @@ namespace dragonchau.Models
     {
         public int StaffID { get; set; }
         public string StaffPassword { get; set; }
+        public string StaffEmail { get; set; }
     
         public virtual Staff Staff { get; set; }
     }

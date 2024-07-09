@@ -28,7 +28,8 @@ namespace dragonchau.Models
         public string StaffIDnum { get; set; }
         public Nullable<System.DateTime> StaffDateCreate { get; set; }
         public Nullable<int> StaffRole { get; set; }
-    
+
+
         public virtual Account Account { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bill> Bills { get; set; }

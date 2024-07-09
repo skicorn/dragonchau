@@ -1,0 +1,43 @@
+﻿@model dragonchau.Models.Account
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Account</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StaffPassword)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StaffPassword)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StaffEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StaffEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Staff.StaffName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Staff.StaffName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StaffID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

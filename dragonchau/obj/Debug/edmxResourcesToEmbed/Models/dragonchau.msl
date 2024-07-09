@@ -6,6 +6,7 @@
         <MappingFragment StoreEntitySet="Account">
           <ScalarProperty Name="StaffID" ColumnName="StaffID" />
           <ScalarProperty Name="StaffPassword" ColumnName="StaffPassword" />
+          <ScalarProperty Name="StaffEmail" ColumnName="StaffEmail" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
