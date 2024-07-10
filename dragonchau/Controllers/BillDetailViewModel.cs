@@ -8,7 +8,7 @@ namespace dragonchau.Controllers
 {
     public class BillDetailViewModel
     {
-        public int? MedicineID { get; set; }
+        public string MedicineName { get; set; }
         public int?Quantity { get; set; }
         public decimal?BillDetail_Price { get; set; }
         public decimal?BillDetail_Total { get; set; }

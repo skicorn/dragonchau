@@ -31,6 +31,7 @@
     <Property Name="Quantity" Type="int" />
     <Property Name="BillDetail_Total" Type="decimal" Precision="15" Scale="2" />
     <Property Name="BillDetail_Price" Type="decimal" Precision="15" Scale="2" />
+    <Property Name="MedicineName" Type="nvarchar" MaxLength="30" />
   </EntityType>
   <EntityType Name="Brand">
     <Key>

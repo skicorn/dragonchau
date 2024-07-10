@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": ".NET Framework Launch (web)",
+        "type": "clr",
+        "request": "launch",
+        "program": "${workspaceFolder}/dragonchau/bin/Debug/dragonchau.exe",
+        "args": [],
+        "cwd": "${workspaceFolder}/dragonchau",
+        "stopAtEntry": false,
+        "console": "internalConsole",
+        "preLaunchTask": "build",
+        "windows": {
+          "program": "${workspaceFolder}/dragonchau/bin/Debug/dragonchau.exe"
+        }
+      }
+    ]
+  }

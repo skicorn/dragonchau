@@ -6,7 +6,12 @@
 }
 
 <h2>Details</h2>
-
+@if (@TempData["Success"] != null)
+{
+	<div class="alert alert-success">
+		<strong>@TempData["Success"]</strong>
+	</div>
+}
 <div>
 	<h4>Bill</h4>
 	<hr />
@@ -51,6 +56,7 @@
 
 <p>
 	@Html.ActionLink("Edit", "Edit", new { id = Model.BillID }) |
+	@Html.ActionLink("Print Invoice", "Print", new { id = Model.BillID }, new { target = "_blank" }) |
 	@Html.ActionLink("Back to List", "Index")
 </p>
 
@@ -73,7 +79,7 @@
 
                             details.forEach(function (detail) {
                                 detailHtml += '<tr>';
-                                detailHtml += '<td>' + detail.MedicineID + '</td>';
+								detailHtml += '<td>' + detail.MedicineName + '</td>';
                                 detailHtml += '<td>' + detail.Quantity + '</td>';
                                 detailHtml += '<td>' + detail.BillDetail_Price + '</td>';
                                 detailHtml += '<td>' + detail.BillDetail_Total + '</td>';
@@ -98,6 +104,7 @@
             if (billId) {
                 getBillInfo(billId);
             }
-        });
+		});
+
 	</script>
 }

@@ -21,6 +21,7 @@ namespace dragonchau.Models
         public Nullable<int> Quantity { get; set; }
         public Nullable<decimal> BillDetail_Total { get; set; }
         public Nullable<decimal> BillDetail_Price { get; set; }
+        public string MedicineName { get; set; }
     
         public virtual Bill Bill { get; set; }
         public virtual Medicine Medicine { get; set; }

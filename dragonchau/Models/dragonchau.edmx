@@ -36,6 +36,7 @@
           <Property Name="Quantity" Type="int" />
           <Property Name="BillDetail_Total" Type="decimal" Precision="15" Scale="2" />
           <Property Name="BillDetail_Price" Type="decimal" Precision="15" Scale="2" />
+          <Property Name="MedicineName" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="Brand">
           <Key>
@@ -363,6 +364,7 @@
           <Property Name="Quantity" Type="Int32" />
           <Property Name="BillDetail_Total" Type="Decimal" Precision="15" Scale="2" />
           <Property Name="BillDetail_Price" Type="Decimal" Precision="15" Scale="2" />
+          <Property Name="MedicineName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Bill" Relationship="Self.FK__BillDetai__BillI__571DF1D5" FromRole="BillDetail" ToRole="Bill" />
           <NavigationProperty Name="Medicine" Relationship="Self.FK__BillDetai__Medic__5812160E" FromRole="BillDetail" ToRole="Medicine" />
           <NavigationProperty Name="Unit" Relationship="Self.FK__BillDetai__UnitI__59063A47" FromRole="BillDetail" ToRole="Units" />
@@ -706,6 +708,7 @@
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="BillDetail_Total" ColumnName="BillDetail_Total" />
                 <ScalarProperty Name="BillDetail_Price" ColumnName="BillDetail_Price" />
+                <ScalarProperty Name="MedicineName" ColumnName="MedicineName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

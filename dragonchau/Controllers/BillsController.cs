@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using dragonchau.Models;
+using PdfSharp.Drawing;
+using PdfSharp.Drawing.Layout;
+using PdfSharp.Pdf;
 
 namespace dragonchau.Controllers
 {
@@ -18,7 +22,7 @@ namespace dragonchau.Controllers
         public ActionResult Index()
         {
             var bills = db.Bills.Include(b => b.Customer).Include(b => b.Staff);
-            return View(bills.ToList());
+            return View(bills.OrderByDescending(b=>b.BillDateCreate).ToList());
         }
 
         // GET: Bills/Details/5
@@ -85,13 +89,14 @@ namespace dragonchau.Controllers
                         //add to bill
                         billtotal = billtotal + detail.BillDetail_Total;
                         totalquantity = totalquantity + detail.Quantity;
+                        detail.MedicineName = GetMedicineName(detail.MedicineID);
                         detail.BillID = bill.BillID; // Assign the BillID to each BillDetail
                     }
                     db.SaveChanges();
                     updatetotal(id, billtotal, totalquantity);
+                    TempData["Success"] = "Tạo thành công";
                 }
-
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = id });
             }
 
             // If ModelState is not valid, repopulate ViewBag and return to view
@@ -172,7 +177,7 @@ namespace dragonchau.Controllers
                 .Where(de => de.BillID == billid)
                 .Select(de => new BillDetailViewModel
                 {
-                    MedicineID = de.MedicineID,
+                    MedicineName = de.MedicineName,
                     Quantity = de.Quantity,
                     BillDetail_Price = de.BillDetail_Price,
                     BillDetail_Total = de.BillDetail_Total
@@ -223,6 +228,100 @@ namespace dragonchau.Controllers
                 .ToList();
 
             return Json(new { success = true, medicines }, JsonRequestBehavior.AllowGet);
+        }
+        public string GetMedicineName(int? id)
+        {
+            var medicine = db.Medicines.Find(id);
+            return medicine.MedicineName.ToString();
+        }
+        public ActionResult Print(string id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Bills"); 
+            }
+
+            // Fetch bill details
+            var bill = db.Bills.Include(b => b.Customer).Include(b => b.Staff)
+                                .FirstOrDefault(b => b.BillID == id);
+
+            if (bill == null)
+            {
+                return HttpNotFound();
+            }
+
+            PdfDocument document = new PdfDocument();
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XFont font = new XFont("Arial", 12);
+            XTextFormatter tf = new XTextFormatter(gfx);
+
+            XImage image = XImage.FromFile(Server.MapPath("~\\Content\\dragonchau.png"));
+            int imageWidth = 50; 
+            int imageHeight = 50;
+            gfx.DrawImage(image, page.Width - image.PixelWidth - 40, 40, image.PixelWidth, image.PixelHeight);
+
+            string billContent = $"Bill ID: {bill.BillID}\n";
+            billContent += $"Bill Date: {bill.BillDateCreate}\n";
+            billContent += $"Customer: {bill.Customer.CustomerName}\n";
+            billContent += $"Staff: {bill.Staff.StaffName}\n";
+            billContent += $"Discount: {bill.Discount}\n";
+            billContent += $"Total Quantity: {bill.TotalQuantity}\n";
+            billContent += $"Total: {bill.Total}\n";
+
+            XRect rect = new XRect(40, 40, page.Width - 80, page.Height - 80);
+            tf.DrawString(billContent, font, XBrushes.Black, rect, XStringFormats.TopLeft);
+
+            int startY = 300;
+            int cellHeight = 20;
+            int cellPadding = 5;
+
+            gfx.DrawRectangle(XPens.Black, new XRect(40, startY, page.Width - 80, cellHeight));
+            gfx.DrawString("Medicine", font, XBrushes.Black, new XRect(40 + cellPadding, startY + cellPadding, 100, cellHeight), XStringFormats.TopLeft);
+            gfx.DrawString("Quantity", font, XBrushes.Black, new XRect(140 + cellPadding, startY + cellPadding, 100, cellHeight), XStringFormats.TopLeft);
+            gfx.DrawString("Price", font, XBrushes.Black, new XRect(240 + cellPadding, startY + cellPadding, 100, cellHeight), XStringFormats.TopLeft);
+            gfx.DrawString("Total", font, XBrushes.Black, new XRect(340 + cellPadding, startY + cellPadding, 100, cellHeight), XStringFormats.TopLeft);
+
+            startY += cellHeight;
+
+            foreach (var detail in bill.BillDetails)
+            {
+                gfx.DrawRectangle(XPens.Black, new XRect(40, startY, page.Width - 80, cellHeight));
+                gfx.DrawString(detail.MedicineName, font, XBrushes.Black, new XRect(40 + cellPadding, startY + cellPadding, 100, cellHeight), XStringFormats.TopLeft);
+                gfx.DrawString(detail.Quantity.ToString(), font, XBrushes.Black, new XRect(140 + cellPadding, startY + cellPadding, 100, cellHeight), XStringFormats.TopLeft);
+                gfx.DrawString(detail.BillDetail_Price.ToString(), font, XBrushes.Black, new XRect(240 + cellPadding, startY + cellPadding, 100, cellHeight), XStringFormats.TopLeft);
+                gfx.DrawString(detail.BillDetail_Total.ToString(), font, XBrushes.Black, new XRect(340 + cellPadding, startY + cellPadding, 100, cellHeight), XStringFormats.TopLeft);
+                startY += cellHeight;
+            }
+
+            MemoryStream stream = new MemoryStream();
+            document.Save(stream, false);
+            stream.Position = 0; 
+
+            Response.Clear();
+            Response.ContentType = "application/pdf";
+            Response.AddHeader("Content-Disposition", $"attachment; filename=Bill_{bill.BillID}.pdf");
+            Response.BinaryWrite(stream.ToArray());
+            Response.End();
+
+            return RedirectToAction("Details", new { id = id });
+        }
+        //get customer by phone
+        [HttpGet]
+        public JsonResult SearchCustomers(string phone)
+        {
+            if (phone == null)
+            {
+                return Json(new { success = false, message = "Invalid customer phone" }, JsonRequestBehavior.AllowGet);
+            }
+            var customer = db.Customers.Where(cu => cu.CustomerPhone.Contains(phone))
+                                       .Select(c => new CustomerViewModel
+                                       {
+                                           ID = c.CustomerID,
+                                           CusName = c.CustomerName,
+                                           CusPhone = c.CustomerPhone
+                                       }).ToList();
+            return Json(customer, JsonRequestBehavior.AllowGet);
         }
     }
 }

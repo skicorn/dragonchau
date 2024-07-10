@@ -35,6 +35,7 @@
     <Property Name="Quantity" Type="Int32" />
     <Property Name="BillDetail_Total" Type="Decimal" Precision="15" Scale="2" />
     <Property Name="BillDetail_Price" Type="Decimal" Precision="15" Scale="2" />
+    <Property Name="MedicineName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Bill" Relationship="Self.FK__BillDetai__BillI__571DF1D5" FromRole="BillDetail" ToRole="Bill" />
     <NavigationProperty Name="Medicine" Relationship="Self.FK__BillDetai__Medic__5812160E" FromRole="BillDetail" ToRole="Medicine" />
     <NavigationProperty Name="Unit" Relationship="Self.FK__BillDetai__UnitI__59063A47" FromRole="BillDetail" ToRole="Units" />

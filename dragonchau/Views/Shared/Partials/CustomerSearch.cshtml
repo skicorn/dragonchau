@@ -1,0 +1,47 @@
+﻿@model dragonchau.Models.Customer
+
+<div class="form-group col-md-4">
+	<label for="searchCustomer" class="control-label col-md-10">Tìm kiếm khách hàng</label>
+	<div class="col-md-10 position-relative">
+		@*<input type="text" id="searchCustomer" name="searchCustomer" class="form-control" placeholder="Nhập tên khách hàng" />*@
+        @Html.TextBoxFor(model => model.CustomerName, "" , new {@id= "searchCustomer", @name= "searchCustomer", @class="form-control", @placeholder="Nhập tên khách hàng" })
+        @Html.ValidationMessageFor(model => model.CustomerName, "" , new {@class="text-danger"})
+		<ul id="customerResults" class="list-group position-absolute"></ul>
+	</div>
+</div>
+@Html.TextBoxFor(model => model.CustomerID, "", new { @id = "CustomerID", @name = "CustomerID", @type = "hidden" })
+@Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#searchCustomer').keyup(function() {
+            var searchQuery = $(this).val();
+            if (searchQuery.length >= 1) {
+                $.ajax({
+                    url: '@Url.Action("SearchCustomers", "Bills")',
+                    data: { phone: searchQuery },
+                    success: function(data) {
+                        var resultList = $('#customerResults');
+                        resultList.empty();
+                        $.each(data, function(index, customer) {
+                            resultList.append('<li class="list-group-item" data-id="' + customer.ID + '">' + customer.CusName + ' - ' + customer.CusPhone + '</li>');
+                        });
+
+                        $('.list-group-item').click(function() {
+                            var selectedCustomerId = $(this).data('id');
+                            var selectedCustomerName = $(this).text().split(' - ')[0];
+                            var selectedCustomerPhone = $(this).text().split(' - ')[1];
+                            $('#CustomerID').val(selectedCustomerId);
+                            $('#searchCustomer').val(selectedCustomerName);
+                            $('#CustomerPhone').val(selectedCustomerPhone);
+                            resultList.empty();
+                        });
+                    }
+                });
+            } else {
+                $('#customerResults').empty();
+            }
+        });
+    });
+</script>

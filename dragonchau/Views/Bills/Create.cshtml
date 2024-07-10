@@ -11,34 +11,37 @@
 {
 	@Html.AntiForgeryToken()
 
-	<div class="form-horizontal">
+	<div class="form-horizontal" id="form-submit">
 		<hr />
-
 		@Html.HiddenFor(model => model.BillID)
-
-		<div class="form-group">
-			@Html.LabelFor(model => model.CustomerID, "Customer", htmlAttributes: new { @class = "control-label col-md-2" })
-			<div class="col-md-10">
-				@Html.DropDownList("CustomerID", null, "-- Select Customer --", htmlAttributes: new { @class = "form-control" })
-				@Html.ValidationMessageFor(model => model.CustomerID, "", new { @class = "text-danger" })
+		<div class="form-group row align-items-center">
+			<div class="col">
+				<div class="input-group d-flex align-items-end">
+					@Html.Partial("~/Views/Shared/Partials/CustomerSearch.cshtml")
+					@Html.HiddenFor(model => model.CustomerID)
+					<div class="input-group-append">
+						<button type="button" id="btn-add-customer" class="btn btn-primary">
+							<i class="bi bi-person-plus-fill"></i>
+						</button>
+					</div>
+				</div>
 			</div>
 		</div>
 
+
 		<!-- Medicine Section -->
 		<div id="addMedicineSection">
-			<h4>Add Medicine</h4>
 			<div class="form-group">
-				@Html.LabelFor(model => model.Discount, "Giảm giá", htmlAttributes: new { @class = "control-label col-md-2" })  
+				@Html.LabelFor(model => model.Discount, "Giảm giá", htmlAttributes: new { @class = "control-label col-md-2" })
 				<div class="row">
 					<div class="col-md-2">
-						@Html.TextBoxFor(model => model.Discount, htmlAttributes: new { @class = "form-control discount", @id = "discount" })
-						@Html.ValidationMessageFor(model => model.Discount, "", new { @class = "text-danger" })
+						@Html.TextBoxFor(model => model.Discount, htmlAttributes: new { @class = "form-control discount", @id = "discount", @placeholder = "Nhập giảm giá (nếu có)" })
 					</div>
 				</div>
 				<br />
 				<div class="row">
 					<div class="col-md-4">
-						@Html.DropDownList("SelectedMedicineID", (SelectList)ViewBag.MedicineID, "-- Select Medicine --", new { @class = "form-control selected-medicine" })
+						@Html.Partial("~/Views/Shared/Partials/MedicineSearch.cshtml")
 						@Html.ValidationMessageFor(model => model.BillDetails, "", new { @class = "text-danger" })
 					</div>
 					<div class="col-md-2">
@@ -73,55 +76,109 @@
 		<!-- Submit Button -->
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
-				<input type="submit" value="Create" class="btn btn-default" />
+				<input type="submit" value="Create" id="submitcreate" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
+
+	<!-- Add Customer Modal -->
+	<div class="modal fade" id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="addCustomerModalLabel">Thêm khách hàng</h4>
+				</div>
+				<div class="modal-body">
+					<!-- Form to add customer -->
+					<form id="customerForm">
+						<div class="form-floating mb-3">
+							<input type="text" class="form-control" id="CustomerName" name="CustomerName" placeholder="Nhập tên khách hàng" />
+							<label for="CustomerName" class="control-label">Tên khách hàng</label>
+						</div>
+						<div class="form-floating mb-3">
+							<input type="text" class="form-control" id="CustomerPhone" name="CustomerPhone" placeholder="Số điện thoại" />
+							<label for="CustomerPhone" class="control-label">Số điện thoại khách hàng</label>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="btn-close-customer" data-dismiss="modal">Đóng</button>
+					<button type="button" class="btn btn-primary" id="btn-save-customer">Lưu</button>
+				</div>
 			</div>
 		</div>
 	</div>
 }
 @section Scripts {
-	@Scripts.Render("~/bundles/jqueryval")
-<script type="text/javascript">
-        $(document).ready(function () {
-    // Fetch units when a medicine is selected
-    $('.selected-medicine').change(function () {
-        var selectedMedicineID = $(this).val();
-
-        if (selectedMedicineID) {
-            $.ajax({
-                url: '@Url.Action("GetUnitsForMedicine", "Bills")',
-                type: 'GET',
-                data: { medid: selectedMedicineID },
-                success: function (result) {
-                    if (result.success) {
-                        var units = result.units;
-                        var unitDropdown = $('#UnitID');
-                        unitDropdown.empty();
-
-                        $.each(units, function (index, unit) {
-                            unitDropdown.append($('<option>', {
-                                value: unit.UnitID,
-                                text: unit.UnitName
-                            }));
+   @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+		$(document).ready(function () {
+    // Function to set up medicine search
+    function setupMedicineSearch() {
+        $('#searchMedicine').keyup(function () {
+            var searchQuery = $(this).val();
+            if (searchQuery.length >= 1) {
+                $.ajax({
+                    url: '@Url.Action("SearchMedicines", "Medicines")',
+                    data: { name: searchQuery },
+                    success: function (data) {
+                        var resultList = $('#medicineResults');
+                        resultList.empty();
+                        $.each(data, function (index, medicine) {
+                            resultList.append('<li class="list-group-item" data-id="' + medicine.MedicineID + '">' + medicine.MedicineName + ' - ' + medicine.MedicineDescription + '</li>');
                         });
-                    } else {
-                        alert(result.message);
+
+                        // Update click event for list-group-item
+                        resultList.find('.list-group-item').click(function () {
+                            var selectedMedicineId = $(this).data('id');
+                            var selectedMedicineName = $(this).text().split(' - ')[0];
+                            $('.selected-medicine').val(selectedMedicineId);
+                            $('#searchMedicine').val(selectedMedicineName);
+                            $('#medicineResults').empty();
+
+                            // Fetch units for the selected medicine
+                            if (selectedMedicineId) {
+                                $.ajax({
+                                    url: '@Url.Action("GetUnitsForMedicine", "Bills")',
+                                    type: 'GET',
+                                    data: { medid: selectedMedicineId },
+                                    success: function (result) {
+                                        var unitDropdown = $('#UnitID');
+                                        unitDropdown.empty();
+                                        if (result.success) {
+                                            $.each(result.units, function (index, unit) {
+                                                unitDropdown.append($('<option>', {
+                                                    value: unit.UnitID,
+                                                    text: unit.UnitName
+                                                }));
+                                            });
+                                        } else {
+                                            alert(result.message);
+                                        }
+                                    }
+                                });
+                            }
+                        });
                     }
-                }
-            });
-        } else {
-            $('#UnitID').empty();
-        }
-    });
+                });
+            } else {
+                $('#medicineResults').empty();
+            }
+        });
+    }
+
+    // Initial setup
+    setupMedicineSearch();
 
     // Add medicine to the table
     $('#btn-add-medicine').click(function () {
         var selectedMedicineID = $('.selected-medicine').val();
-        var selectedMedicineText = $('.selected-medicine option:selected').text();
+        var selectedMedicineText = $('#searchMedicine').val();
         var selectedUnitID = $('#UnitID').val();
         var selectedUnitText = $('#UnitID option:selected').text();
-        var quantity = $('#quantity').val();
+        var quantity = parseInt($('#quantity').val()); // Ensure quantity is parsed as integer
 
-        if (selectedMedicineID && selectedUnitID && quantity) {
+        if (!isNaN(quantity) && selectedMedicineID && selectedUnitID && quantity > 0) {
             $.ajax({
                 url: '@Url.Action("GetMedicineInfo", "Bills")',
                 type: 'GET',
@@ -131,17 +188,18 @@
                         var price = quantity * result.price;
                         var medicineExists = false;
 
+                        // Check if the medicine already exists in the table
                         $('#billDetailsTableBody tr').each(function () {
                             var existingMedicineID = $(this).find('input[name*=".MedicineID"]').val();
                             var existingUnitID = $(this).find('input[name*=".UnitID"]').val();
 
                             if (existingMedicineID == selectedMedicineID && existingUnitID == selectedUnitID) {
                                 var existingQuantity = parseInt($(this).find('input[name*=".Quantity"]').val());
-                                var newQuantity = existingQuantity + parseInt(quantity);
+                                var newQuantity = existingQuantity + quantity;
                                 var newPrice = newQuantity * result.price;
-
+                                console.log(typeof (newQuantity));
                                 $(this).find('input[name*=".Quantity"]').val(newQuantity);
-                                $(this).find('td:eq(2)').text(newQuantity);
+                                $(this).find('td:eq(2)').val(newQuantity);
                                 $(this).find('input[name*=".Price"]').val(newPrice.toFixed(2));
                                 $(this).find('td:eq(3)').text(newPrice.toFixed(2));
 
@@ -149,6 +207,7 @@
                             }
                         });
 
+                        // If medicine does not exist, add a new row
                         if (!medicineExists) {
                             var newRow = `<tr>
                                 <td>
@@ -174,23 +233,79 @@
                             $('#billDetailsTableBody').append(newRow);
                         }
 
-                        $('.selected-medicine').val('');
+                        // Clear input fields after adding medicine
+                        $('#searchMedicine').val('');
                         $('#quantity').val('');
                         $('#UnitID').empty();
+
+                        // Re-setup medicine search after adding a row
+                        setupMedicineSearch();
                     } else {
                         alert(result.message);
                     }
                 }
             });
         } else {
-            alert('Please fill all fields');
+			toastr.warning('Vui lòng điền đầy đủ thông tin ', 'Lỗi');
         }
     });
 
     // Remove medicine row
-    $('#billDetailsTable').on('click', '.btn-remove-medicine', function () {
-        $(this).closest('tr').remove();
+	$('#billDetailsTable').on('click', '.btn-remove-medicine', function () {
+				$(this).closest('tr').remove();
+
+				// Update row indexes
+				$('#billDetailsTableBody tr').each(function (index) {
+					$(this).find('input[name*=".MedicineID"]').attr('name', `BillDetails[${index}].MedicineID`);
+					$(this).find('input[name*=".UnitID"]').attr('name', `BillDetails[${index}].UnitID`);
+					$(this).find('input[name*=".Quantity"]').attr('name', `BillDetails[${index}].Quantity`);
+					$(this).find('input[name*=".Price"]').attr('name', `BillDetails[${index}].Price`);
+				});
+			});
+
+    $('#btn-close-customer').click(function () {
+        $('#addCustomerModal').modal('hide');
     });
+
+    // Add new customer
+    $('#btn-add-customer').click(function () {
+        $('#addCustomerModal').modal('show');
+    });
+
+    // Save customer via AJAX
+    $('#btn-save-customer').click(function () {
+        var cusname = $('#CustomerName').val();
+        var cusphone = $('#CustomerPhone').val();
+
+        $.ajax({
+            url: '@Url.Action("CreateAjax", "Customers")',
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ name: cusname, phone: cusphone }),
+            success: function (data) {
+                if (data.success) {
+                    // Optionally update UI or close modal
+                    $('#addCustomerModal').modal('hide');
+                    $('#CustomerID').val(data.customerId);
+                } else {
+                    alert('Failed to save customer.');
+                }
+            },
+            error: function () {
+                alert('Error while saving customer.');
+            }
+        });
+    });
+    //event handle to check if exists the bill item
+    $('#submitcreate').click(function (event) {
+        if ($('#billDetailsTableBody tr').length === 0) {
+			event.preventDefault(); // Ngăn chặn sự kiện submit mặc định
+			toastr.warning('Phải chọn ít nhất 1 sản phẩm thuốc.', 'Lỗi');
+		}
+	});
+
 });
+
 </script>
 }

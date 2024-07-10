@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "build",
+        "command": "msbuild",
+        "type": "shell",
+        "args": [
+          "/property:GenerateFullPaths=true",
+          "/t:build",
+          "${workspaceFolder}/dragonchau.sln"
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "presentation": {
+          "reveal": "silent"
+        },
+        "problemMatcher": "$msCompile"
+      }
+    ]
+  }
+  

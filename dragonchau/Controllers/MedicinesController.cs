@@ -93,8 +93,6 @@ namespace dragonchau.Controllers
             return View(medicine);
         }
 
-        // GET: Medicines/Edit/5
-        // GET: Medicines/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -107,7 +105,7 @@ namespace dragonchau.Controllers
                 return HttpNotFound();
             }
             ViewBag.MedicineBrand = new SelectList(db.Brands, "BrandID", "BrandName", medicine.MedicineBrand);
-            return PartialView("EditPar", medicine);
+            return PartialView("EditPar", medicine); 
         }
 
         // POST: Medicines/Edit/5
@@ -130,7 +128,7 @@ namespace dragonchau.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return PartialView("EditPar", medicine);
+            return View("Index");
         }
 
         // GET: Medicines/Delete/5
@@ -183,6 +181,27 @@ namespace dragonchau.Controllers
         public string unitname(int id)
         {
             return db.Units.Find(id).UnitName;
+        }
+
+        [HttpGet]
+        public JsonResult SearchMedicines(string name)
+        {
+            if (name == null)
+            {
+                return Json(new { success = false, message = "Invalid medicine" }, JsonRequestBehavior.AllowGet);
+            }
+
+            var medicines = db.Medicines
+                              .Where(cu => cu.MedicineName.Contains(name))
+                              .Select(me => new MedicineViewModel
+                              {
+                                  MedicineID = me.MedicineID,
+                                  MedicineName = me.MedicineName,
+                                  MedicineDescription = me.MedicineDescription
+                              })
+                              .ToList();
+
+            return Json(medicines, JsonRequestBehavior.AllowGet);
         }
     }
 }

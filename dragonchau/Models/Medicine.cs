@@ -11,6 +11,7 @@ namespace dragonchau.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations.Schema;
     
@@ -25,26 +26,17 @@ namespace dragonchau.Models
     
         public int MedicineID { get; set; }
         [DisplayName("Tên thuốc")]
+        [Required(ErrorMessage = "Mẹ m béo")]
         public string MedicineName { get; set; }
-        [DisplayName("Giá nhập")]
         public Nullable<decimal> MedicinePrice { get; set; }
-        [DisplayName("Hãng")]
         public Nullable<int> MedicineBrand { get; set; }
-        [DisplayName("Hình ảnh")]
         public byte[] MedicineImg { get; set; }
-        [DisplayName("Hạn sử dụng")]
         public Nullable<System.DateTime> MedicineExp { get; set; }
-        [DisplayName("Mô tả")]
         public string MedicineDescription { get; set; }
-        [DisplayName("Thành phần")]
         public string MedicineIngredients { get; set; }
-        [DisplayName("Tồn kho")]
         public Nullable<int> Available { get; set; }
-        [DisplayName("Đơn vị cơ bản")]
         public Nullable<int> BaseUnit { get; set; }
-        [DisplayName("Giá bán")]
         public Nullable<decimal> MedicinePrice_Sell { get; set; }
-        [DisplayName("Nhóm thuốc")]
         public Nullable<int> MedicineCate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

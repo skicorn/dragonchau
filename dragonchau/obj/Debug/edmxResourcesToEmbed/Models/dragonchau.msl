@@ -33,6 +33,7 @@
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="BillDetail_Total" ColumnName="BillDetail_Total" />
           <ScalarProperty Name="BillDetail_Price" ColumnName="BillDetail_Price" />
+          <ScalarProperty Name="MedicineName" ColumnName="MedicineName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -1,28 +1,199 @@
 ﻿@{
 	ViewBag.Title = "Home Page";
 }
+<link href="~/Content/dashboard.css" rel="stylesheet" />
 
-<div id="overview" class="content-section active">
-	<div class="results-table">
-		<h2>Kết Quả Doanh Thu</h2>
-		<table>
-			<tr>
-				<td class="card revenue">
-					<img src="https://cdn-icons-png.flaticon.com/128/1267/1267419.png" alt="Doanh Thu">
-					<div class="card-content">
-						<h3>Doanh Thu</h3>
-						<p>251,120,000 VND</p>
+<div class="row d-flex justify-content-between align-items-center">
+	<h1 class="h3 d-flex text-gray-800 w-25">Tổng quan</h1>
+	<strong id="currentDateTime" class="w-50 d-flex start-0 justify-content-end m-0"></strong>
+</div>
+
+<div class="row">
+	<!-- Earnings (Monthly) Card Example -->
+	<div class="col-xl-3 col-md-6 mb-4">
+		<div class="card border-left-primary shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+							Thu nhập tháng này
+						</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.totalMonthly</div>
 					</div>
-				</td>
-				<td class="card new-orders">
-					<img src="https://cdn-icons-png.flaticon.com/128/10608/10608883.png" alt="Đơn Hàng Mới">
-					<div class="card-content">
-						<h3>Đơn Hàng Mới</h3>
-						<p><span class="highlight">(3)</span></p>
+					<div class="col-auto">
+						<i class="fas fa-calendar fa-2x text-gray-300"></i>
 					</div>
-				</td>
-			</tr>
-		</table>
+				</div>
+			</div>
+		</div>
 	</div>
 
+	<!-- Earnings (Monthly) Card Example -->
+	<div class="col-xl-3 col-md-6 mb-4">
+		<div class="card border-left-success shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+							Thu nhập hôm nay
+						</div>
+						<div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.totalValue</div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Earnings (Monthly) Card Example -->
+	<div class="col-xl-3 col-md-6 mb-4">
+		<div class="card border-left-info shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+							Số đơn hàng
+						</div>
+						<div class="row no-gutters align-items-center">
+							<div class="col-auto">
+								<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">@ViewBag.TotalOrder</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Expire medicine -->
+	<div class="col-xl-3 col-md-6 mb-4">
+		<div class="card border-left-info shadow h-100 py-2">
+			<div class="card-body">
+				<div class="row no-gutters align-items-center">
+					<div class="col mr-2">
+						<div class="text-danger font-weight-bold text-info text-uppercase mb-1">
+							Thuốc hết hạn
+						</div>
+						<div class="row no-gutters align-items-center">
+							<div class="col-auto">
+								<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">0</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-auto">
+						<i class="fas fa-pills fa-2x text-gray-300"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	@{
+		ViewBag.Title = "Thống kê kinh doanh";
+		Layout = "~/Views/Shared/_Layout.cshtml";
+	}
+
+	<h2>Thống kê bán hàng</h2>
+
+	<div class="dropdown">
+		<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+			Select an option
+		</button>
+		<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			<li><a class="dropdown-item" href="#" data-value="week">Tuần</a></li>
+			<li><a class="dropdown-item" href="#" data-value="month">Tháng</a></li>
+			<li><a class="dropdown-item" href="#" data-value="year">Năm</a></li>
+		</ul>
+	</div>
+
+	<canvas id="myChart" width="150px" height="50px"></canvas>
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		startTime();
+
+		fetch('/Home/GetWeeklySalesData')
+			.then(response => response.json())
+			.then(data => {
+				var labels = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
+				var total = Array(7).fill(0);
+
+				data.forEach(item => {
+					total[item.Day] = item.Total;
+				});
+
+				var ctx = document.getElementById('myChart').getContext('2d');
+
+				var myChart = new Chart(ctx, {
+					type: 'line',
+					data: {
+						labels: labels,
+						datasets: [{
+							label: 'Lợi nhuận',
+							data: total,
+							backgroundColor: 'rgba(75, 192, 192, 0.2)',
+							borderColor: 'rgba(75, 192, 192, 1)',
+							borderWidth: 1,
+							fill: false
+						}]
+					},
+					options: {
+						scales: {
+							y: {
+								beginAtZero: true
+							}
+						},
+						plugins: {
+							datalabels: {
+								align: 'end',
+								anchor: 'end',
+								formatter: function (value, context) {
+									return value;
+								},
+								color: 'black'
+							}
+						}
+					},
+					plugins: [ChartDataLabels]
+				});
+			})
+			.catch(error => console.error('Error fetching data:', error));
+	});
+
+	function startTime() {
+		const today = new Date();
+		const options = {
+			weekday: 'long',
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+			hour: '2-digit',
+			minute: '2-digit',
+			second: '2-digit'
+		};
+		const formattedDateTime = today.toLocaleString('vi-VN', options);
+		document.getElementById('currentDateTime').innerHTML = formattedDateTime;
+		setTimeout(startTime, 1000);
+	}
+
+	function checkTime(i) {
+		if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
+		return i;
+	}
+	document.getElementById('dropdownMenuButton').textContent = 'Tuần';
+
+	document.querySelectorAll('.dropdown-item').forEach(item => {
+		item.addEventListener('click', function (event) {
+			event.preventDefault();
+			var text = this.textContent;
+			document.getElementById('dropdownMenuButton').textContent = text;
+		});
+	});
+</script>
