@@ -1,85 +1,19 @@
-﻿
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Login";
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+﻿@{
+    ViewBag.Title = "Contact";
 }
-@if (TempData["WarningMessage"] != null)
-{
-    <div id="warningAlert" class="alert alert-warning"><strong></strong>@TempData["WarningMessage"]</div>
-}
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title.</h2>
+    <h3>@ViewBag.Message</h3>
 
+    <address>
+        One Microsoft Way<br />
+        Redmond, WA 98052-6399<br />
+        <abbr title="Phone">P:</abbr>
+        425.555.0100
+    </address>
 
-@using (Html.BeginForm("Login", "Account", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="content" style="background: #fff; height: 650px; overflow:hidden;">
-        <div class="container" style=" padding:4rem 0;">
-            <div class="row" style="display:flex;">
-                <div class="col-md-6 order-md-2">
-                    <img style="height:600px;width:600px;" src="~/Content/images/bg_book.jpg" alt="Image" class="img-fluid">
-                </div>
-                <div class="col-md-6 contents">
-                    <div class="row justify-content-center">
-                        <div class="col-md-8">
-                            <div class="mb-4">
-                                <h3>Sign In to <strong>BaToCom</strong></h3>
-                                <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p>
-                            </div>
-                            <form action="#" method="post">
-                                <div class="form-group first">
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                                    <div class="form-group">
-                                        @Html.Label("Staff Name", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
-                                            @Html.TextBox("staffName", null, new { @class = "form-control" })
-                                            @Html.ValidationMessage("staffName", "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="form-group last mb-4">
-
-                                    <div class="form-group">
-                                        @Html.Label("Password", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
-                                            @Html.Password("password", null, new { @class = "form-control" })
-                                            @Html.ValidationMessage("password", "", new { @class = "text-danger" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex mb-5 align-items-center">
-                                    <label class="control control--checkbox mb-0">
-                                        <span class="caption">Remember me</span>
-                                        <input type="checkbox" checked="checked">
-                                        <div class="control__indicator"></div>
-                                    </label>
-                                    <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span>
-                                </div>
-                                <input type="submit" value="Login" class="btn btn-primary" />
-                                <span class="d-block text-left my-4 text-muted"> or sign in with</span>
-                                <div class="social-login">
-                                    <a href="#" class="facebook" style="text-decoration:none;">
-                                        <img src="~/Content/images/icon__fb.svg" />
-                                    </a>
-                                    <a href="#" class="twitter" style="text-decoration:none;">
-                                        <img src="~/Content/images/icon-google.svg" />
-                                    </a>
-                                    <a href="#" class="google" style="text-decoration:none;">
-                                        <img src="~/Content/images/icon_instagram.svg" />
-                                    </a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
- 
-}
+    <address>
+        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
+        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+    </address>
+</main>

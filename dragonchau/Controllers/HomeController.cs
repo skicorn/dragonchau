@@ -32,7 +32,29 @@ namespace dragonchau.Controllers
         {
             return View();
         }
-            
-      
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string staffName, string password)
+        {
+            if (ModelState.IsValid)
+            {
+                var account = db.Accounts.SingleOrDefault(a => a.Staff.StaffName == staffName && a.StaffPassword == password);
+                if (account != null)
+                {
+                   
+                    Session["StaffID"] = account.StaffID;
+                    return RedirectToAction("Index", "Staffs");
+                }
+                else
+                {
+                    TempData["WarningMessage"] = "Sai thông tin đăng nhập";
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            return View();
+        }
+
+
     }
 }

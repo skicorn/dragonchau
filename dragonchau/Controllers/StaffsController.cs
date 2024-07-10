@@ -153,7 +153,7 @@ namespace dragonchau.Controllers
         {
             Staff staff = db.Staffs.Find(id);
             db.Staffs.Remove(staff);
-            TempData["SuccessMessage"] = "";
+            TempData["SuccessMessage"] = "Delete staff succesful";
             db.SaveChanges();
             return RedirectToAction("Index");
         }
