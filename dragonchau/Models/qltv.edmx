@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dragonchauModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="dragonchauModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Account">
           <Key>
             <PropertyRef Name="StaffID" />
@@ -71,7 +71,7 @@
           <Property Name="MedicinePrice" Type="decimal" Precision="15" Scale="2" />
           <Property Name="MedicineBrand" Type="int" />
           <Property Name="MedicineImg" Type="image" />
-          <Property Name="MedicineExp" Type="datetime" />
+          <Property Name="MedicineExp" Type="date" />
           <Property Name="MedicineDescription" Type="nvarchar" MaxLength="255" />
           <Property Name="MedicineIngredients" Type="nvarchar" MaxLength="255" />
           <Property Name="Available" Type="int" />
@@ -108,13 +108,6 @@
           <Property Name="StaffIDnum" Type="nvarchar" MaxLength="16" />
           <Property Name="StaffDateCreate" Type="datetime" />
           <Property Name="StaffRole" Type="int" />
-        </EntityType>
-        <EntityType Name="Supplier">
-          <Key>
-            <PropertyRef Name="SupplierID" />
-          </Key>
-          <Property Name="SupplierID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="SupplierName" Type="nvarchar" MaxLength="30" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -276,7 +269,6 @@
           <EntitySet Name="MedicineUnit" EntityType="Self.MedicineUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Staff" EntityType="Self.Staff" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Units" EntityType="Self.Units" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Account__StaffID__3C69FB99" Association="Self.FK__Account__StaffID__3C69FB99">
@@ -324,8 +316,7 @@
             <End Role="Staff" EntitySet="Staff" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dragonchauModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -405,7 +396,7 @@
           <Property Name="MedicinePrice" Type="Decimal" Precision="15" Scale="2" />
           <Property Name="MedicineBrand" Type="Int32" />
           <Property Name="MedicineImg" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="MedicineExp" Type="DateTime" Precision="3" />
+          <Property Name="MedicineExp" Type="DateTime" Precision="0" />
           <Property Name="MedicineDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="MedicineIngredients" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Available" Type="Int32" />
@@ -452,13 +443,6 @@
           <NavigationProperty Name="Account" Relationship="Self.FK__Account__StaffID__3C69FB99" FromRole="Staff" ToRole="Account" />
           <NavigationProperty Name="Bills" Relationship="Self.FK__Bill__StaffID__4F7CD00D" FromRole="Staff" ToRole="Bill" />
           <NavigationProperty Name="Role" Relationship="Self.FK__Staff__StaffRole__398D8EEE" FromRole="Staff" ToRole="Role" />
-        </EntityType>
-        <EntityType Name="Supplier">
-          <Key>
-            <PropertyRef Name="SupplierID" />
-          </Key>
-          <Property Name="SupplierID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SupplierName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -622,7 +606,6 @@
           <EntitySet Name="MedicineUnits" EntityType="Self.MedicineUnit" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="Staffs" EntityType="Self.Staff" />
-          <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Units" EntityType="Self.Unit" />
           <AssociationSet Name="FK__Account__StaffID__3C69FB99" Association="Self.FK__Account__StaffID__3C69FB99">
@@ -786,14 +769,6 @@
                 <ScalarProperty Name="StaffIDnum" ColumnName="StaffIDnum" />
                 <ScalarProperty Name="StaffDateCreate" ColumnName="StaffDateCreate" />
                 <ScalarProperty Name="StaffRole" ColumnName="StaffRole" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Suppliers">
-            <EntityTypeMapping TypeName="dragonchauModel.Supplier">
-              <MappingFragment StoreEntitySet="Supplier">
-                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
-                <ScalarProperty Name="SupplierName" ColumnName="SupplierName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

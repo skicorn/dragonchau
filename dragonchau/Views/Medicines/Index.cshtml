@@ -5,18 +5,26 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h3>Danh mục thuốc</h3>
 
-<p>
-	@Html.ActionLink("Create New", "Create")
-</p>
 
-<form method="get" action="@Url.Action("Index")">
-	<p>
-		Find by name or brand: @Html.TextBox("searchString")
-		<input type="submit" value="Search" />
-	</p>
-</form>
+
+<div class="d-flex justify-content-between">
+	<form method="get" action="@Url.Action("Index")" class="d-flex justify-content-between col-3">
+		@Html.TextBox("searchString", "", new { @class = "form-control mt-2 mb-2", @placeholder = "Tên thuốc, danh mục, hãng..." })
+		<input type="submit" value="Lọc" class="btn btn-primary mt-2 mb-2" />
+	</form>
+	<div class="d-flex">
+		<button class="btn btn-success mt-2 mb-2">
+			<a href="@Url.Action("Create")">
+				<i class="bi bi-plus-lg text-white"></i>
+			</a>
+		</button>
+		<button id="addCategory" class="btn btn-success mt-2 mb-2 m-2">Thêm danh mục</button>
+		<button id="addBrand" class="btn btn-success mt-2 mb-2 m-2">Thêm hãng</button>
+		<button id="btnExpired" class="btn btn-danger mt-2 mb-2 m-2">Thuốc hết hạn</button>
+	</div>
+</div>
 
 <table id="medicineTable" class="table">
 	<thead>
@@ -77,9 +85,60 @@
 </table>
 
 <div id="medicineDetailsModal" class="modal fade" role="dialog">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<!-- AJAX content will be loaded here -->
+		</div>
+	</div>
+</div>
+
+<!--model add brand-->
+<div class="modal fade" id="addBrandModal" tabindex="-1" role="dialog" aria-labelledby="addBrandModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="addBrandModalLabel">Thêm hãng</h4>
+			</div>
+			<div class="modal-body">
+				<!-- Form to add customer -->
+				<form id="brandForm">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="BrandName" name="BrandName" placeholder="Nhập tên khách hàng" />
+						<label for="BrandName" class="control-label">Tên hãng</label>
+					</div>
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="BrandCountry" name="BrandCountry" placeholder="Nhập tên khách hàng" />
+						<label for="BrandCountry" class="control-label">Tên nước</label>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" id="btn-close-brand" data-dismiss="modal">Đóng</button>
+				<button type="button" class="btn btn-primary" id="btn-save-brand">Lưu</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--modal add cate-->
+<div class="modal fade" id="addCateModal" tabindex="-1" role="dialog" aria-labelledby="addCateModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="addCateModalLabel">Thêm danh mục</h4>
+			</div>
+			<div class="modal-body">
+				<!-- Form to add customer -->
+				<form id="cateForm">
+					<div class="form-floating mb-3">
+						<input type="text" class="form-control" id="CateName" name="CateName" placeholder="Nhập tên khách hàng" />
+						<label for="CateName" class="control-label">Tên danh mục</label>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" id="btn-close-cate" data-dismiss="modal">Đóng</button>
+				<button type="button" class="btn btn-primary" id="btn-save-cate">Lưu</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -88,15 +147,94 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 	@Scripts.Render("~/bundles/jqueryval")
-	<script>
-        $(document).ready(function () {
-            $(".open-dialog").on("click", function (e) {
-                e.preventDefault();
-                var url = "@Url.Action("Edit", "Medicines")/" + $(this).data("id");
-                $("#medicineDetailsModal .modal-content").load(url, function () {
-                    $('#medicineDetailsModal').modal('show');
-                });
+<script>
+       $(document).ready(function () {
+    $("#btnExpired").on("click", function (e) {
+        e.preventDefault();
+        var url = "@Url.Action("ExpiredMedicines", "Medicines")";
+        $.get(url, function (data) {
+            $("#medicineTable tbody").html(data);
+        });
+    });
+
+    $(".open-dialog").on("click", function (e) {
+        e.preventDefault();
+        var url = "@Url.Action("Edit", "Medicines")/" + $(this).data("id");
+        $("#medicineDetailsModal .modal-content").load(url, function () {
+            $('#medicineDetailsModal').modal('show');
+        });
+	});
+    $("#addBrand").click(function () {
+		$('#addBrandModal').modal('show');
+	});
+	$("#btn-close-brand").click(function () {
+		$('#addBrandModal').modal('hide');
+	});
+
+		$('#btn-save-brand').click(function () {
+		        var name = $('#BrandName').val();
+		        var country = $('#BrandCountry').val();
+		        if (name === "" || country === "") {
+		        	toastr.warning("Tên hãng và nước không được để trống", "");
+		        	return;
+		        }
+
+		              $.ajax({
+                      url: '@Url.Action("CreateBrand", "Medicines")',
+                      type: 'POST',
+                      dataType: 'json',
+                      contentType: 'application/json',
+		        		  data: JSON.stringify({ BrandName: name, BrandCountry: country }),
+                          success: function (data) {
+                          if (data.success) {
+                              // Optionally update UI or close modal
+		        			  $('#addBrandModal').modal('hide');
+		        			  toastr.success(data.message, "");
+
+                          } else {
+		        			  toastr.warning(data.message, "");
+                          }
+                      },
+                      error: function () {
+                          alert('Error while saving customer.');
+                      }
+                 });
             });
         });
-	</script>
+
+		$("#addCategory").click(function () {
+			$('#addCateModal').modal('show');
+		});
+		$("#btn-close-cate").click(function () {
+			$('#addCateModal').modal('hide');
+		});
+		$('#btn-save-cate').click(function () {
+			var name = $('#CateName').val();
+        if (name === "") {
+        	toastr.warning("Tên hãng và nước không được để trống", "");
+        	return;
+        }
+
+              $.ajax({
+              url: '@Url.Action("CreateCate", "Medicines")',
+              type: 'POST',
+              dataType: 'json',
+              contentType: 'application/json',
+        		  data: JSON.stringify({ CateName: name}),
+                  success: function (data) {
+                  if (data.success) {
+                      // Optionally update UI or close modal
+					  $('#addCateModal').modal('hide');
+        			  toastr.success(data.message, "");
+
+                  } else {
+        			  toastr.warning(data.message, "");
+                  }
+              },
+              error: function () {
+                  alert('Error while saving customer.');
+              }
+         });
+    });
+</script>
 }

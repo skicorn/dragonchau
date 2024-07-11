@@ -4,20 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bcd64396735345b69f34ae2144c80e25" Name="Diagram1">
+      <Diagram DiagramId="7247a3484a504b069f892661f9d2be78" Name="Diagram1" ZoomLevel="57">
         <EntityTypeShape EntityType="dragonchauModel.Account" Width="1.5" PointX="3" PointY="21.875" IsExpanded="true" />
         <EntityTypeShape EntityType="dragonchauModel.Bill" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="dragonchauModel.BillDetail" Width="1.5" PointX="5.25" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="dragonchauModel.BillDetail" Width="1.5" PointX="8.75" PointY="2.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dragonchauModel.Brand" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="dragonchauModel.Category" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dragonchauModel.Customer" Width="1.5" PointX="0.75" PointY="8.375" IsExpanded="true" />
         <EntityTypeShape EntityType="dragonchauModel.Medicine" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="dragonchauModel.MedicineUnit" Width="1.5" PointX="8.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dragonchauModel.MedicineUnit" Width="1.5" PointX="5.625" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="dragonchauModel.Role" Width="1.5" PointX="1.5" PointY="15.875" IsExpanded="true" />
         <EntityTypeShape EntityType="dragonchauModel.Staff" Width="1.5" PointX="0.75" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="dragonchauModel.Supplier" Width="1.5" PointX="5.75" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="dragonchauModel.sysdiagram" Width="1.5" PointX="7.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="dragonchauModel.Unit" Width="1.5" PointX="3" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="dragonchauModel.Unit" Width="1.5" PointX="7.75" PointY="14.25" IsExpanded="true" />
         <AssociationConnector Association="dragonchauModel.FK__Account__StaffID__3C69FB99" ManuallyRouted="false" />
         <AssociationConnector Association="dragonchauModel.FK__Bill__CustomerID__5070F446" ManuallyRouted="false" />
         <AssociationConnector Association="dragonchauModel.FK__Bill__StaffID__4F7CD00D" ManuallyRouted="false" />

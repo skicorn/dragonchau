@@ -195,66 +195,66 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\CustomerViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MedicinesController.cs" />
     <Compile Include="Controllers\MedicineViewModel.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\StaffsController.cs" />
     <Compile Include="Controllers\Utils.cs" />
+    <Compile Include="Controllers\WareHouseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Bill.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BillDetail.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Brand.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Customer.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\dragonchau.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dragonchau.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\dragonchau.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dragonchau.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\dragonchau.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>dragonchau.edmx</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Medicine.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MedicineUnit.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\qltv.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>qltv.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\qltv.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>qltv.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\qltv.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>qltv.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Role.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Staff.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Supplier.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Unit.cs">
-      <DependentUpon>dragonchau.tt</DependentUpon>
+      <DependentUpon>qltv.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -283,20 +283,21 @@
     <Content Include="Content\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\dragonchau.png" />
     <Content Include="Content\dragonchau.svg" />
+    <Content Include="Content\staff.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\dragonchau.Context.tt">
+    <Content Include="Models\qltv.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dragonchau.edmx</DependentUpon>
-      <LastGenOutput>dragonchau.Context.cs</LastGenOutput>
+      <DependentUpon>qltv.edmx</DependentUpon>
+      <LastGenOutput>qltv.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\dragonchau.tt">
+    <Content Include="Models\qltv.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>dragonchau.edmx</DependentUpon>
-      <LastGenOutput>dragonchau.cs</LastGenOutput>
+      <DependentUpon>qltv.edmx</DependentUpon>
+      <LastGenOutput>qltv.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -304,13 +305,6 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\dragonchau.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>dragonchau.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\dragonchau.edmx.diagram">
-      <DependentUpon>dragonchau.edmx</DependentUpon>
-    </Content>
     <Content Include="libman.json" />
     <Content Include="Content\bootstrap\css\bootstrap-grid.css.map" />
     <Content Include="Content\bootstrap\css\bootstrap-grid.min.css.map" />
@@ -428,6 +422,13 @@
     <Content Include="Content\bootstrap\scss\vendor\_rfs.scss" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <EntityDeploy Include="Models\qltv.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>qltv.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\qltv.edmx.diagram">
+      <DependentUpon>qltv.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -472,6 +473,14 @@
     <Content Include="Views\Customers\Edit.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Shared\Partials\addcustomer.cshtml" />
+    <Content Include="Views\WareHouse\Index.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Medicines\_MedicineTablePartial.cshtml" />
+    <Content Include="Views\Staffs\Index.cshtml" />
+    <Content Include="Views\Staffs\Details.cshtml" />
+    <Content Include="Views\Staffs\Edit.cshtml" />
+    <Content Include="Views\Staffs\Create.cshtml" />
+    <Content Include="Views\Staffs\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

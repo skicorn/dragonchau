@@ -70,8 +70,7 @@ namespace dragonchau.Controllers
                 bill.BillID = id;
                 bill.BillStatus = true; 
                 bill.BillDateCreate = DateTime.Now;
-                bill.StaffID = 1; 
-
+                bill.StaffID = (int?) Session["StaffID"]; 
                 db.Bills.Add(bill);
                 db.SaveChanges();
 

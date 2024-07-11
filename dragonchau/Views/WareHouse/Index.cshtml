@@ -1,0 +1,51 @@
+﻿
+@{
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Cập nhập tồn kho</h3>
+
+
+@Html.Partial("~/Views/Shared/Partials/MedicineSearch.cshtml")
+
+
+
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+	<script type="text/javascript">
+	$(document).ready(function () {
+		// Function to set up medicine search
+		function setupMedicineSearch() {
+    $('#searchMedicine').keyup(function () {
+        var searchQuery = $(this).val();
+        if (searchQuery.length >= 1) {
+            $.ajax({
+                url: '@Url.Action("SearchMedicines", "Medicines")',
+                data: { name: searchQuery },
+                success: function (data) {
+                    var resultList = $('#medicineResults');
+                    resultList.empty();
+                    $.each(data, function (index, medicine) {
+                        resultList.append('<li class="list-group-item" data-id="' + medicine.MedicineID + '">' + medicine.MedicineName + ' - ' + medicine.MedicineDescription + '</li>');
+                    });
+
+                    // Update click event for list-group-item
+                    resultList.find('.list-group-item').click(function () {
+                        var selectedMedicineId = $(this).data('id');
+                        var selectedMedicineName = $(this).text().split(' - ')[0];
+                        $('.selected-medicine').val(selectedMedicineId);
+                        $('#searchMedicine').val(selectedMedicineName);
+                        $('#medicineResults').empty();
+                    });
+                }
+            });
+        } else {
+            $('#medicineResults').empty();
+        }
+        });
+        }
+        setupMedicineSearch();
+	});
+	</script>
+}

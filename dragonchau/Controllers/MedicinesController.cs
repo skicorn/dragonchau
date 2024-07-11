@@ -19,15 +19,18 @@ namespace dragonchau.Controllers
         // GET: Medicines
         public ActionResult Index(string searchString)
         {
-            var medicines = db.Medicines.Include(m => m.Brand);
+            var model = db.Medicines.AsQueryable();
 
-            if (!String.IsNullOrEmpty(searchString))
+            // Lọc theo điều kiện
+            if (!string.IsNullOrEmpty(searchString))
             {
-                medicines = medicines.Where(m => m.MedicineName.Contains(searchString) ||
-                                                 m.Brand.BrandName.Contains(searchString));
+                model = model.Where(m =>
+                    m.MedicineName.Contains(searchString) ||
+                    m.Category.CategoryName.Contains(searchString) ||
+                    m.Brand.BrandName.Contains(searchString));
             }
 
-            return View(medicines.ToList());
+            return View(model.ToList());
         }
 
 
@@ -109,26 +112,51 @@ namespace dragonchau.Controllers
         }
 
         // POST: Medicines/Edit/5
+        // POST: Medicines/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "MedicineID,MedicineName,MedicinePrice,MedicineBrand,MedicineExp,MedicineDescription,MedicineIngredients,Available,MedicinePrice_Sell,MedicineCate")] Medicine medicine, HttpPostedFileBase MedicineImg)
         {
             if (ModelState.IsValid)
             {
+                // Fetch the existing entity from the database
+                var existingMedicine = db.Medicines.Find(medicine.MedicineID);
+
+                if (existingMedicine == null)
+                {
+                    return HttpNotFound();
+                }
+
+                // Update properties of the existing entity
+                existingMedicine.MedicineName = medicine.MedicineName;
+                existingMedicine.MedicinePrice = medicine.MedicinePrice;
+                existingMedicine.MedicineBrand = medicine.MedicineBrand;
+                existingMedicine.MedicineDescription = medicine.MedicineDescription;
+                existingMedicine.MedicineIngredients = medicine.MedicineIngredients;
+                existingMedicine.Available = medicine.Available;
+                existingMedicine.MedicinePrice_Sell = medicine.MedicinePrice_Sell;
+                existingMedicine.MedicineCate = medicine.MedicineCate;
+
                 // Handle file upload if MedicineImg is provided
                 if (MedicineImg != null && MedicineImg.ContentLength > 0)
                 {
                     using (var binaryReader = new BinaryReader(MedicineImg.InputStream))
                     {
-                        medicine.MedicineImg = binaryReader.ReadBytes(MedicineImg.ContentLength);
+                        existingMedicine.MedicineImg = binaryReader.ReadBytes(MedicineImg.ContentLength);
                     }
                 }
 
-                db.Entry(medicine).State = EntityState.Modified;
+                // Restore MedicineExp from the existing entity
+                existingMedicine.MedicineExp = medicine.MedicineExp;
+
+                db.Entry(existingMedicine).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View("Index");
+
+            // If ModelState is not valid, return to the edit view with validation errors
+            ViewBag.MedicineBrand = new SelectList(db.Brands, "BrandID", "BrandName", medicine.MedicineBrand);
+            return PartialView("EditPar", medicine);
         }
 
         // GET: Medicines/Delete/5
@@ -186,13 +214,15 @@ namespace dragonchau.Controllers
         [HttpGet]
         public JsonResult SearchMedicines(string name)
         {
+            var today = DateTime.Today;
+            var expiryThreshold = today.AddDays(7);
             if (name == null)
             {
                 return Json(new { success = false, message = "Invalid medicine" }, JsonRequestBehavior.AllowGet);
             }
 
             var medicines = db.Medicines
-                              .Where(cu => cu.MedicineName.Contains(name))
+                              .Where(cu => cu.MedicineName.Contains(name) && cu.MedicineExp > today && cu.MedicineExp > expiryThreshold)
                               .Select(me => new MedicineViewModel
                               {
                                   MedicineID = me.MedicineID,
@@ -203,5 +233,68 @@ namespace dragonchau.Controllers
 
             return Json(medicines, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ExpiredMedicines()
+        {
+            try
+            {
+                var today = DateTime.Today;
+                var expiryThreshold = today.AddDays(7); // Ngày hết hạn trong vòng 7 ngày từ ngày hiện tại
+                var expiredMedicines = db.Medicines.Where(m => m.MedicineExp <= today || m.MedicineExp <= expiryThreshold).ToList();
+                return PartialView("_MedicineTablePartial", expiredMedicines);
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception appropriately
+                return Content("Error: " + ex.Message); // For debugging purposes
+            }
+        }
+        //them hang
+        [HttpPost]
+        public JsonResult CreateBrand(string BrandName, string BrandCountry)
+        {
+            // Kiểm tra xem brand với BrandName đã tồn tại chưa
+            var existingBrand = db.Brands.FirstOrDefault(b => b.BrandName == BrandName);
+
+            if (existingBrand != null)
+            {
+                return Json(new { success = false, message = "Thương hiệu đã tồn tại" }, JsonRequestBehavior.AllowGet);
+            }
+
+            // Nếu chưa tồn tại, tạo mới thương hiệu
+            Brand brand = new Brand
+            {
+                BrandName = BrandName,
+                BrandCountry = BrandCountry
+            };
+
+            db.Brands.Add(brand);
+            db.SaveChanges();
+
+            return Json(new { success = true, message = "Tạo thành công" }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult CreateCate(string CateName)
+        {
+            var existingCate= db.Categories.FirstOrDefault(b => b.CategoryName == CateName);
+
+            if (existingCate != null)
+            {
+                return Json(new { success = false, message = "Danh mục đã tồn tại" }, JsonRequestBehavior.AllowGet);
+            }
+
+            // Nếu chưa tồn tại, tạo mới thương hiệu
+            Category cate = new Category
+            {
+                CategoryName = CateName
+            };
+
+            db.Categories.Add(cate);
+            db.SaveChanges();
+
+            return Json(new { success = true, message = "Tạo thành công" }, JsonRequestBehavior.AllowGet);
+        }
+
+        //them hang
     }
 }

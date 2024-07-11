@@ -1,0 +1,165 @@
+﻿@model IEnumerable<dragonchau.Models.Staff>
+
+@{
+	<link href="~/Content/staff.css" rel="stylesheet" />
+	ViewBag.Title = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Quản lý nhân viên</h3>
+<p>
+	@Html.ActionLink("Add Staff", "Create", "", new { @class = "btn btn-primary" })
+</p>
+
+<!--row 1-->
+<div class="row">
+	<div class="box-1">
+		<div class="card mb-3 widget-content bg-midnight-bloom custom-width">
+			<div class="widget-content-wrapper text-black" style="background: #14698E; ">
+				<div class="widget-content-left">
+					<div class="widget-heading text-white ">Total number </div>
+					<div class="widget-subheading text-white">Manager</div>
+				</div>
+				<div class="widget-content-right">
+					<div class="widget-numbers text-white"><span style=" font-weight: 700; font-size: 1.8rem; display: block;">@ViewBag.ManagerCount</span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="box-2">
+		<div class="card mb-3 widget-content bg-midnight-bloom custom-width">
+			<div class="widget-content-wrapper text-black" style="background: #1A456B; ">
+				<div class="widget-content-left">
+					<div class="widget-heading text-white ">Total number </div>
+					<div class="widget-subheading text-white">Pharmacist</div>
+				</div>
+				<div class="widget-content-right">
+					<div class="widget-numbers text-white"><span style=" font-weight: 700; font-size: 1.8rem; display: block;">@ViewBag.PharmacistCount</span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="box-3">
+		<div class="card mb-3 widget-content bg-midnight-bloom custom-width">
+			<div class="widget-content-wrapper text-black" style="background: #10C79A;">
+				<div class="widget-content-left">
+					<div class="widget-heading text-white ">Total number </div>
+					<div class="widget-subheading text-white">Cashier</div>
+				</div>
+				<div class="widget-content-right">
+					<div class="widget-numbers text-white"><span style=" font-weight: 700; font-size: 1.8rem; display: block;">@ViewBag.CashierCount</span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--row 2-->
+
+<div class="split-right-staff">
+	<form method="get" action="@Url.Action("Index")">
+		<div class="border-search-area-staff">
+
+			@using (Html.BeginForm("Index", "Staff", FormMethod.Get))
+			{
+				<table>
+					<tr>
+						<td>
+							@*<img src="~/Content/images/magnifying-glass-solid.svg" style="height:20px;width:20px;" />*@ <input style="outline: none; width: 605px; border: none; border-radius: 0px;" placeholder="Looking for..." type="text" name="SearchString" />
+						</td>
+					</tr>
+				</table>
+			}
+		</div>
+	</form>
+
+	<div id="parentDiv">
+		<table id="staffTable" class="table">
+			<tr>
+				<th>
+					@Html.DisplayNameFor(model => model.StaffName)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.StaffPhone)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.StaffEmail)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.StaffSalary)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.StaffIDnum)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.StaffDateCreate)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Account.StaffPassword)
+				</th>
+				<th>
+					@Html.DisplayNameFor(model => model.Role.RoleName)
+				</th>
+				<th></th>
+			</tr>
+
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.StaffName)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.StaffPhone)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.StaffEmail)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.StaffSalary)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.StaffIDnum)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.StaffDateCreate)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Account.StaffPassword)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Role.RoleName)
+					</td>
+					<td>
+						@Html.ActionLink(" ", "Details", new { id = item.StaffID }, new { @style = "background:url('../Content/Images/ellipsis-vertical-solid.svg') no-repeat center right; display:block; height: 20px; width: 20px" })
+
+
+
+					</td>
+				</tr>
+			}
+
+		</table>
+	</div>
+</div>
+</div>
+
+
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+
+		var alert = document.getElementById('successAlert');
+		if (alert) {
+			setTimeout(function () {
+				alert.style.display = 'none';
+
+			}, 2000);
+		}
+	});
+</script>
+
+﻿
+﻿
+﻿
+﻿
+

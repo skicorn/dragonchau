@@ -1,0 +1,40 @@
+﻿@model IEnumerable<dragonchau.Models.Medicine>
+
+@foreach (var item in Model)
+{
+	<tr data-id="@item.MedicineID" class="open-dialog">
+		<td>
+			@Html.DisplayFor(modelItem => item.MedicineName)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.MedicinePrice)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.MedicinePrice_Sell)
+		</td>
+		<td>
+			@if (item.MedicineImg != null && item.MedicineImg.Length > 0)
+			{
+				<img src="data:image/jpeg;base64,@Convert.ToBase64String(item.MedicineImg)" alt="Medicine Image" style="max-width:100px;" />
+			}
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.MedicineExp)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.MedicineDescription)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.MedicineIngredients)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Available)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Brand.BrandName)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.MedicineCate)
+		</td>
+	</tr>
+}

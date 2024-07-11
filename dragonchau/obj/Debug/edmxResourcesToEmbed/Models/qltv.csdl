@@ -76,7 +76,7 @@
     <Property Name="MedicinePrice" Type="Decimal" Precision="15" Scale="2" />
     <Property Name="MedicineBrand" Type="Int32" />
     <Property Name="MedicineImg" Type="Binary" MaxLength="Max" FixedLength="false" />
-    <Property Name="MedicineExp" Type="DateTime" Precision="3" />
+    <Property Name="MedicineExp" Type="DateTime" Precision="0" />
     <Property Name="MedicineDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
     <Property Name="MedicineIngredients" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
     <Property Name="Available" Type="Int32" />

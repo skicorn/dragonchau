@@ -45,5 +45,10 @@ namespace dragonchau.Controllers
             return totalValue;
         }
         
+        public static int TotalExpire(dragonchauEntities db)
+        {
+            var today = DateTime.Today;
+            return db.Medicines.Where(m => m.MedicineExp <  today).Count();   
+        }
     }
 }

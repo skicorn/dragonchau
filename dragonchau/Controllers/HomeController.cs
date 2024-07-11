@@ -13,6 +13,11 @@ namespace dragonchau.Controllers
         private dragonchauEntities db = new dragonchauEntities();
         public ActionResult Index()
         {
+            if (Session["Phone"] == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+            ViewBag.totalExp = Utils.TotalExpire(db);
             ViewBag.totalOrder = Utils.TotalOrder(db);
             ViewBag.totalMonthly = Utils.MonthlyIncome(db);
             ViewBag.totalValue = Utils.TotalIncome(db);
@@ -76,5 +81,7 @@ namespace dragonchau.Controllers
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+
     }
 }
